@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home.index');
+        $asd = 10;
+        return view('home.index',compact('asd'));
     }
 }
