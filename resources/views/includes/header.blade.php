@@ -22,31 +22,31 @@
                 </li>
 
 
-{{--            @auth--}}
-{{--                <ul class="navbar-nav ms-auto mb-2 mb-md-0">--}}
-{{--                    <li class="nav-item m-2">--}}
-{{--                        {{ __('Привет, :name!', ['name' => auth()->user()->first_name]) }}--}}
-{{--                    </li>--}}
+            @auth
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item m-2">
+                        {{ __('Привет, :name!', ['name' => auth()->user()->name]) }}
+                    </li>
 
-{{--                    <form method="POST" action="{{ route('login.logout') }}">--}}
-{{--                        @csrf--}}
-{{--                        <button type="submit" class="nav-link btn btn-no-outline">{{ __('Выйти') }}</button>--}}
-{{--                    </form>--}}
-{{--                </ul>--}}
-{{--            @else--}}
-{{--                <ul class="navbar-nav ms-auto mb-2 mb-md-0">--}}
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('register') }}" class="nav-link " aria-current="page">--}}
-{{--                            {{ __('Регистрация') }}--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('login') }}" class="nav-link " aria-current="page">--}}
-{{--                            {{ __('Вход') }}--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
+                    <form method="POST" action="{{ route('login.logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-no-outline">{{ __('Выйти') }}</button>
+                    </form>
                 </ul>
-{{--            @endauth--}}
+            @else
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a href="{{ route('register') }}" class="nav-link " aria-current="page">
+                            {{ __('Регистрация') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="nav-link " aria-current="page">
+                            {{ __('Вход') }}
+                        </a>
+                    </li>
+                </ul>
+            @endauth
         </div>
     </div>
 </nav>
