@@ -18,7 +18,7 @@
 
         <header>
 
-            @yield('header')
+            @include('includes.header')
 
         </header>
 
@@ -32,7 +32,7 @@
 
     <div>
 
-        @yield('footer')
+        @include('includes.footer')
 
     </div>
 
