@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Actions\Users;
+
 use App\Models\User;
 
 class CreateUserAction
 {
-    public function run(array $attributes): User
+    public function run(array $data): User
     {
         return User::query()->create([
-            'name' => $attributes['name'],
-            'email' => $attributes['email'],
-            'password' => bcrypt($attributes['password']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
             'active' => 1
         ]);
     }

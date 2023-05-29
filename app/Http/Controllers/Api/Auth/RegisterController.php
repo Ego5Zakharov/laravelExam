@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Actions\Auth\AuthenticateUserAction;
 use App\Actions\Users\CreateUserAction;
+use App\Actions\Users\CreateUserData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\RegisterRequest;
 use App\Http\Resources\UserResourse;
@@ -20,7 +21,12 @@ class RegisterController extends Controller
     {
         $validated = $request->validated();
 
-        $user = (new CreateUserAction)->run($validated);
+        $user = (new CreateUserAction)->run(new CreateUserData(
+            name: $validated['name'],
+            email: $validated['email'],
+            password: $validated['password']
+        )
+        );
 
         $token = (new AuthenticateUserAction)->withToken($user, $validated['device']);
 
