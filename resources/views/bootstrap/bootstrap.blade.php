@@ -17,7 +17,8 @@
     {{--   </x-bootstrap.figure>--}}
     {{--    <x-bootstrap.form></x-bootstrap.form>--}}
     {{--    <x-bootstrap.select></x-bootstrap.select>--}}
-    <x-bootstrap.checkbox></x-bootstrap.checkbox>
+    {{--    <x-bootstrap.checkbox></x-bootstrap.checkbox>--}}
+    <x-bootstrap.accordion></x-bootstrap.accordion>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
