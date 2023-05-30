@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Users;
 
 use App\Actions\Users\CreateUserAction;
+use App\Actions\Users\CreateUserData;
 use Illuminate\Console\Command;
 
 class CreateUserCommand extends Command
@@ -20,16 +21,11 @@ class CreateUserCommand extends Command
         $email = $this->ask('Email');
         $password = $this->ask('Password');
 
-        $user = (new CreateUserAction)->run(
-            [
-                'name' => $name,
-                'email' => $email,
-                'password' => $password,
-            ],
-        );
+        $data = new CreateUserData(name: $name, email: $email, password: $password);
 
-        $this->info("User id: {$user->id}");
+        $user = (new CreateUserAction)->run($data);
 
+        $this->info('User created successfully.');
         return 1;
     }
 }

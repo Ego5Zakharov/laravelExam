@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Actions\Auth\AuthenticateUserAction;
 use App\Actions\Users\CreateUserAction;
+use App\Actions\Users\CreateUserData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -20,7 +21,13 @@ class RegisterController extends Controller
     {
         $validated = $request->validated();
 
-        $user = (new CreateUserAction)->run($validated);
+        $userData = new CreateUserData(
+            name: $validated['name'],
+            email: $validated['email'],
+            password: $validated['password']
+        );
+
+        $user = (new CreateUserAction)->run($userData);
 
         if ((new AuthenticateUserAction)->withSession($user)) {
             return redirect()->route('home');

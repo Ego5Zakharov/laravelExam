@@ -21,16 +21,18 @@ class RegisterController extends Controller
     {
         $validated = $request->validated();
 
-        $user = (new CreateUserAction)->run(new CreateUserData(
+        $userData = new CreateUserData(
             name: $validated['name'],
             email: $validated['email'],
             password: $validated['password']
-        )
         );
+
+        $user = (new CreateUserAction)->run($userData);
 
         $token = (new AuthenticateUserAction)->withToken($user, $validated['device']);
 
         return UserResourse::make($user)->additional(compact('token'));
+
 //        return response()->json([
 //            'user' => $user->toArray(),
 //            'token' =>$token->plainTextToken,
