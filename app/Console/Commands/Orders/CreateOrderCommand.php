@@ -4,7 +4,7 @@ namespace App\Console\Commands\Orders;
 
 use App\Actions\Orders\CreateOrderAction;
 use App\Actions\Orders\CreateOrderData;
-use App\Models\Order;
+use App\Support\Values\Number;
 use Illuminate\Console\Command;
 
 class CreateOrderCommand extends Command
@@ -21,9 +21,9 @@ class CreateOrderCommand extends Command
 
         $amount = $this->ask('Amount');
 
-        $data = new CreateOrderData($amount);
+        $data = new CreateOrderData(amount: new Number($amount));
 
-        $order = (new CreateOrderAction)->run($data);
+        (new CreateOrderAction)->run($data);
 
         $this->info('Order created successfully.');
     }

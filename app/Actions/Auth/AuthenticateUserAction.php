@@ -12,8 +12,7 @@ class AuthenticateUserAction
     public function withAttributes(array $attributes)
     {
         if (Auth::attempt($attributes)) {
-            session()->flash('flash.message', 'Вы успешно зарегистрировались');
-            session()->flash('flash.key', 'success');
+            flash('Вы успешно зарегистрировались!', 'success');
             return true;
         }
         return false;
@@ -23,8 +22,7 @@ class AuthenticateUserAction
     {
         Auth::login($user);
         if (Auth::hasUser()) {
-            session()->flash('flash.message', 'Вы успешно зарегистрировались');
-            session()->flash('flash.type', 'success');
+            flash('Вы успешно зарегистрировались!', 'success');
             return true;
         }
         return false;

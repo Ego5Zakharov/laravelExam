@@ -3,6 +3,7 @@
 namespace App\Actions\Orders;
 
 use App\Models\Order;
+use App\Support\Values\Number;
 
 class CreateOrderAction
 {
@@ -10,7 +11,7 @@ class CreateOrderAction
     {
         return Order::query()->create([
             'amount' => $data->amount,
-            'discount_amount' => 0,
+            'discount_amount' => new Number(),
             'user_amount' => $data->amount
         ]);
     }

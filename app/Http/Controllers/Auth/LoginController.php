@@ -18,8 +18,7 @@ class LoginController extends Controller
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
-            session()->flash('flash.message', "Вы успешно авторизовались");
-            session()->flash('flash.type', "success");
+            flash('Вы успешно аунтефицировались!', 'success');
 
             return redirect()->route('home');
         }

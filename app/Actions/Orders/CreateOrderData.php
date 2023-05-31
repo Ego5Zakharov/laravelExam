@@ -2,10 +2,12 @@
 
 namespace App\Actions\Orders;
 
+use App\Support\Values\Number;
+
 class CreateOrderData
 {
     public function __construct(
-        public readonly string $amount,
+        public readonly Number $amount,
     )
     {
 
