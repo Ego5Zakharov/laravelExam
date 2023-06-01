@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,4 +13,7 @@ Route::prefix('admin')->middleware(['role:admin'])->group(function () {
 
     Route::get('products/paginate-data', [ProductController::class, 'pagination']);
     Route::get('products/search', [ProductController::class, 'search'])->name('admin.products.search');
+
+
+    Route::get('users', [UserController::class, 'index'])->name('admin.users.index');
 });

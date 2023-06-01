@@ -12,7 +12,6 @@
                 <h2 class="my-5 text-center">Laravel 8 Ajax CRUD</h2>
                 <a href="" class="btn btn-success my-3" data-bs-toggle="modal" data-bs-target="#addModal">Add
                     Product</a>
-
                 <input type="text" name="search" id="search" class="mb-3 form-control" placeholder="Search">
 
                 <div class="table-data">
