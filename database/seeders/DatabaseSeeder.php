@@ -17,10 +17,9 @@ class DatabaseSeeder extends Seeder
             Role::query()->create(['name' => 'editor']);
             Role::query()->create(['name' => 'user']);
         }
-
-        if (UserRole::query()->count() === 0) {
-            UserRole::factory(3)->create();
-        }
+//        if (UserRole::query()->count() === 0) {
+//            UserRole::factory(3)->create();
+//        }
         // \App\Models\User::factory(10)->create();
     }
 }
