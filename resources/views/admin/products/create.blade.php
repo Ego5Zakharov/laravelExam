@@ -16,7 +16,7 @@
             <input class="form-control" type="number" name="price">
 
             <label for="published" class="form-label">isPublished</label>
-            <input class="form-check-input" type="checkbox" name="published">
+            <input class="form-check-input" type="checkbox" name="published" value="1">
 
             <input type="file" class="form-control" name="images[]" multiple>
 

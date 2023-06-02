@@ -11,7 +11,7 @@
                     <div class="card">
                         <div class="card-header">
                             @if($product->images->count() > 0)
-                                <img src="{{ asset('storage/'.$product->images[0]->imagePath) }}" class="card-img-top img-fluid card-img" alt="">
+                                <img src="{{ Storage::url($product->images[0]->imagePath) }}" class="card-img-top img-fluid card-img" alt="">
                             @else
                                 <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
                                     <span class="text-muted">No Image</span>

@@ -19,7 +19,8 @@ class ProductRequest extends FormRequest
             'description' => 'required|string|min:5|max:400',
             'price' => 'required|numeric|min:50|max:10000000',
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Validate each image file
+            'published' => 'nullable|boolean|in:0,1',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }
