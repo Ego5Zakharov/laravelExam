@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="container">
+  <x-container>
         <div class="row justify-content-around">
             @foreach($users as $user)
                 <!-- {{$roles = $user->roles()->pluck('name')}} -->
@@ -26,5 +26,5 @@
                 </div>
             @endforeach
         </div>
-    </div>
+  </x-container>
 @endsection

@@ -6,7 +6,6 @@ use App\Models\User;
 
 class CreateUserAction
 {
-
     public function run(CreateUserData $data): User
     {
         return User::query()->create([

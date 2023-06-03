@@ -2,9 +2,9 @@
 
 
 @section('content')
-    <div class="container col-6 border mt-5 g-3">
-        <x-errors></x-errors>
-        <form action="{{route('admin.products.store')}}" method="POST"  enctype="multipart/form-data">
+    <x-container class="col-6 border mt-5 g-3">
+
+        <form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <label for="title" class="form-label">Title</label>
             <input class="form-control" type="text" name="title">
@@ -23,6 +23,6 @@
             <button class="btn " type="submit">Submit</button>
         </form>
 
-    </div>
+    </x-container>
 
 @endsection

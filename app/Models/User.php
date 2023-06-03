@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -43,10 +44,21 @@ class User extends Authenticatable
             }
         });
     }
+
     public function hasAnyRole($roles)
     {
         if (is_array($roles)) {
             return $this->roles()->pluck('name')->intersect($roles)->count() > 0;
         }
+    }
+
+    public function isAdmin()
+    {
+        return Auth::user()->hasRole('admin');
+    }
+
+    public function hasRole(string $roleName)
+    {
+        return $this->roles()->where('name', $roleName);
     }
 }

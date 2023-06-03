@@ -61,6 +61,13 @@ class ProductController extends Controller
         }
     }
 
+    public function show(Product $product)
+    {
+//        $productId = Product::query()->findOrFail($product);
+//
+//        return view('admin.products.show', compact('productId'));
+
+    }
 
     public function update(Request $request)
     {
