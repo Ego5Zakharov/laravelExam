@@ -1,4 +1,4 @@
-@guest
+
     <nav class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container">
             <a href="{{ route('home') }}" class="navbar-brand">
@@ -17,30 +17,25 @@
                             {{ __('Главная') }}
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.account.index') }}" class="nav-link {{ active_link('user.account.index') }}"
+                           aria-current="page">
+                            {{ __('Личный кабинет') }}
+                        </a>
+                    </li>
+                </ul>
 
-                </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a href="{{ route('register') }}"
-                           class="nav-link {{active_link('register')}}"
-                           aria-current="page">
-                            {{ __('Регистрация') }}
-                        </a>
+
+                    <li class="nav-item m-2">
+                        <div class="bg-light">Привет, {{Auth::user()->name}}</div>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('login') }}" class="nav-link {{active_link('login')}}"
-                           aria-current="page">
-                            {{ __('Вход') }}
-                        </a>
-                    </li>
-                </ul>
+
+                    <form method="POST" action="{{ route('login.logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-no-outline">{{ __('Выйти') }}</button>
+                    </form>
+                    </ul>
             </div>
         </div>
     </nav>
-@else
-    @if(Auth::user()->isAdmin())
-        @include('includes.admin.header')
-    @else
-        @include('includes.user.header')
-    @endif
-@endguest

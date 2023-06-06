@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Categories\CreateCategoryAction;
 use App\Actions\Categories\CreateCategoryData;
+use App\Actions\Categories\UpdateCategoryAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
+use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -50,13 +52,29 @@ class CategoryController extends Controller
         return redirect()->route(('admin.categories.show'), $category);
     }
 
-    public function update()
+    public function edit($id)
     {
-        return view('admin.categories.update');
+        $category = Category::query()->findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
-    public function edit()
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $validated = $request->validated();
+
+        $path = $category->image;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $path = $file->store('uploads', 'public');
+        }
+
+        $data = (new CreateCategoryData(name: $validated['name'], image: $path));
+
+        (new UpdateCategoryAction)->run($data, $category);
+
+        flash('Категория успешно обновлена!', "success");
+        return redirect()->route('admin.categories.show', $category);
     }
 
     public function delete($id)

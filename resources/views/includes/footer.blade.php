@@ -1,3 +1,3 @@
-<footer>
-    <div class="text-center">{{config('app.name')}}</div>
+<footer class="fixed-bottom">
+    <div class="text-center container-fluid">{{config('app.name')}}</div>
 </footer>

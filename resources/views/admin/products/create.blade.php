@@ -2,26 +2,42 @@
 
 
 @section('content')
-    <x-container class="col-6 border mt-5 g-3">
+    <x-container class="col-4 border mt-5 g-3">
 
-        <form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
+        <x-breadcrumb back="admin.products.index" current="ProductCreate"></x-breadcrumb>
+
+        <x-form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
-            <label for="title" class="form-label">Title</label>
-            <input class="form-control" type="text" name="title">
 
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" type="text" name="description"></textarea>
+            <x-form-item>
+                <x-label required>Title</x-label>
+                <x-input name="title"></x-input>
+            </x-form-item>
 
-            <label for="price" class="form-label">Price</label>
-            <input class="form-control" type="number" name="price">
+            <x-form-item>
+                <x-label required>Description</x-label>
+                <x-textarea  name="description"></x-textarea>
+            </x-form-item>
 
-            <label for="published" class="form-label">isPublished</label>
-            <input class="form-check-input" type="checkbox" name="published" value="1">
+            <x-form-item>
+                <x-label required>Price</x-label>
+                <x-input type="number" name="price"></x-input>
+            </x-form-item>
 
-            <input type="file" class="form-control" name="images[]" multiple>
+            <x-form-item>
+                <x-label class="" required>isPublished</x-label>
+                <x-input class="form-check-input" type="checkbox" name="published" value="1"></x-input>
+            </x-form-item>
 
-            <button class="btn " type="submit">Submit</button>
-        </form>
+            <x-form-item>
+                <x-label required>Description</x-label>
+                <x-input type="file" class="form-control" name="images[]" multiple></x-input>
+            </x-form-item>
+
+            <x-button type="submit">Создать</x-button>
+
+
+        </x-form>
 
     </x-container>
 

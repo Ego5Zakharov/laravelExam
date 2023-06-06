@@ -1,11 +1,11 @@
 @props(['required'=>false])
 
-<div {{
-    $attributes
-->class('form-control',$required ? $required: '')
-->merge(['type'=>'text'
-])
-}}>
-    {{$slot}}
+<input {{$attributes->class([
+    'form-control',
+    $required ? $required:''
+])->merge([
+    'type'=>'text'
+])}}>
+{{$slot}}
 
-</div>
+

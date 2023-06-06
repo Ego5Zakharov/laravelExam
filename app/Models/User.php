@@ -50,12 +50,16 @@ class User extends Authenticatable
         if (is_array($roles)) {
             return $this->roles()->pluck('name')->intersect($roles)->count() > 0;
         }
+        return false;
     }
 
     public function isAdmin()
     {
-        return Auth::user()->hasRole('admin');
+
+        return $this->roles()->where('name', 'admin')->exists();
+
     }
+
 
     public function hasRole(string $roleName)
     {

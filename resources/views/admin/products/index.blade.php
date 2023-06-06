@@ -3,12 +3,10 @@
 @section('content')
 
     <x-container>
-        <x-alert></x-alert>
 
-        <x-link route="admin.products.create">
+        <x-link href="{{route('admin.products.create')}}">
             Create Product
         </x-link>
-
 
         <x-table.table class="table-bordered ">
 
@@ -26,14 +24,13 @@
                 @foreach($products as $product)
                     <x-table.row>
                         <x-table.col>{{$product->id}}</x-table.col>
-                        <x-table.col>{{$product->title}}</x-table.col>
+                        <x-table.col>
+                            <x-link href="{{route('admin.products.show',$product->id)}}"> {{$product->title}}</x-link>
+                        </x-table.col>
                         <x-table.col>{{$product->description}}</x-table.col>
                         <x-table.col>{{$product->price}}</x-table.col>
-                        @if($product->published)
-                            <x-table.col>{{__('Yes')}}</x-table.col>
-                        @else
-                            <x-table.col>{{__('No')}}</x-table.col>
-                        @endif
+                        <x-table.col class="col-2">Опубликовано: {{$product->published ? 'Да' : 'Нет'}}</x-table.col>
+
                         @if($product->images->count() > 0)
                             <x-table.col>
                                 <img class="img-fluid"
@@ -47,10 +44,15 @@
                                 </div>
                             </x-table.col>
                         @endif
-                        <x-table.col>
-                            <div class="">1</div>
-                            <div>1</div>
-                            <div>1</div>
+                        <x-table.col class="d-flex flex-column text-center">
+
+                            <x-form action="{{route('admin.products.delete',$product)}}" method="POST">
+                                @csrf
+                                <x-button type="submit">Удалить</x-button>
+                            </x-form>
+                            <x-link href="{{route('admin.products.edit',$product)}}">Изменить</x-link>
+
+
                         </x-table.col>
 
 

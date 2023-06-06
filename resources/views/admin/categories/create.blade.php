@@ -2,16 +2,16 @@
 
 
 @section('content')
-    <x-container class="col-6 border mt-5 g-3">
-        <form action="{{route('admin.categories.store')}}" method="POST" enctype="multipart/form-data">
+    <x-container class="col-md-6">
+        <x-form action="{{route('admin.categories.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
+            <x-label required>Name</x-label>
+            <x-input name="name"></x-input>
 
-            <label for="name" class="form-label">Title</label>
-            <input class="form-control" type="text" name="name" id="name">
+            <x-label required>Image</x-label>
+            <x-input type="file" name="image"></x-input>
 
-            <label for="Image" class="form-label">Image</label>
-            <input type="file" class="form-control" name="image">
-            <button class="btn " type="submit">Submit</button>
-        </form>
+            <x-button type="submit">Создать</x-button>
+        </x-form>
     </x-container>
 @endsection
