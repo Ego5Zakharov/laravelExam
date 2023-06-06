@@ -3,7 +3,6 @@
 @section('content')
 
   <x-container>
-        <x-errors></x-errors>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form action="{{ route('login.store') }}" method="POST" class="shadow p-5 rounded-4 text-bg-light ">

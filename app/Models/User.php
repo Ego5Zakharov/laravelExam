@@ -27,6 +27,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);
@@ -35,11 +40,15 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
+
+        self::created(function ($user) {
+            $cart = new Cart;
+            $cart->user_id = $user->id;
+            $cart->save();
+        });
         self::created(function ($user) {
             $role = Role::query()->where('name', 'user')->first();
             if ($role) {
-                $user->roles()->created_at = now();
-                $user->roles()->updated_at = now();
                 $user->roles()->attach($role);
             }
         });
