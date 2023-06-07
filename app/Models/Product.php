@@ -35,4 +35,13 @@ class Product extends Model
             'product_id',
             'category_id');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(
+            Order::class,
+            'order_items',
+            'product_id',
+            'order_id');
+    }
 }
