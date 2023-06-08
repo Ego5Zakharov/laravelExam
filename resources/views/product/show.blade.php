@@ -2,7 +2,6 @@
 
 @section('content')
     <x-container>
-        <x-breadcrumb back="admin.products.index" current="ProductShow"></x-breadcrumb>
 
         <div class="row border mb-4">
             <div class="col-md-6">
@@ -36,19 +35,14 @@
                     </div>
 
                     <div class="mb-3">
-                        <b>Количество на складе:</b> {{ $product->quantity ? $product->quantity : 'Нет на складе!' }}1
+                        <b>Количество на складе:</b> {{ $product->quantity ? $product->quantity : 'Нет на складе!' }}
                     </div>
 
 
-                    <div class="mb-3">
-                        <b>Опубликовано:</b> {{$product->published ? 'Да' : 'Нет'}}
-                    </div>
-
-                    <x-form action="{{route('admin.products.delete',$product)}}">
-                        <x-button type="submit">Удалить</x-button>
+                    <x-form action="{{route('cart.add',$product->id)}}" method="POST">
+                        @csrf
+                        <x-button type="submit">Добавить в корзину</x-button>
                     </x-form>
-
-                    <x-link href="{{route('admin.products.edit',$product)}}">Редактировать</x-link>
 
                 </div>
             </div>

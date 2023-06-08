@@ -17,10 +17,11 @@ class UpdateProductAction
             $image->save();
         }
 
-        return $product::query()->update([
+        return $product->update([
             'title' => $data->title,
             'description' => $data->description,
             'price' => $data->price,
+            'quantity' => $data->quantity,
             'published' => $data->published
         ]);
     }

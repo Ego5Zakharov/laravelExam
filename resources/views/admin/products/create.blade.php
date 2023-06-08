@@ -25,6 +25,11 @@
             </x-form-item>
 
             <x-form-item>
+                <x-label required>Quantity</x-label>
+                <x-input type="number" name="quantity"></x-input>
+            </x-form-item>
+
+            <x-form-item>
                 <x-label class="" required>isPublished</x-label>
                 <x-input class="form-check-input" type="checkbox" name="published" value="1"></x-input>
             </x-form-item>

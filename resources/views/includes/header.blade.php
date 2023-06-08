@@ -11,10 +11,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link {{ active_link('home') }}"
                            aria-current="page">
                             {{ __('Главная') }}
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('search.index') }}" class="nav-link {{ active_link('search.index') }}"
+                           aria-current="page">
+                            {{ __('Поиск Товаров') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('cart.index') }}" class="nav-link {{ active_link('cart.index') }}"
+                           aria-current="page">
+                            {{ __('Корзина') }}
                         </a>
                     </li>
 

@@ -15,6 +15,7 @@
                 <x-table.col>Title</x-table.col>
                 <x-table.col>Description</x-table.col>
                 <x-table.col>Price</x-table.col>
+                <x-table.col>Quantity</x-table.col>
                 <x-table.col>IsPublished</x-table.col>
                 <x-table.col>Image</x-table.col>
                 <x-table.col>Actions</x-table.col>
@@ -29,6 +30,7 @@
                         </x-table.col>
                         <x-table.col>{{$product->description}}</x-table.col>
                         <x-table.col>{{$product->price}}</x-table.col>
+                        <x-table.col>{{$product->quantity}}</x-table.col>
                         <x-table.col class="col-2">Опубликовано: {{$product->published ? 'Да' : 'Нет'}}</x-table.col>
 
                         @if($product->images->count() > 0)

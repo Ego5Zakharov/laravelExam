@@ -23,12 +23,17 @@
             </x-form-item>
 
             <x-form-item>
+                <x-label required>Quantity</x-label>
+                <x-input value="{{$product->quantity}}" type="number" name="quantity"></x-input>
+            </x-form-item>
+
+            <x-form-item>
                 <x-label required>isPublished</x-label>
                 <x-input checked class="form-check-input" type="checkbox" name="published" value="1"></x-input>
             </x-form-item>
 
             <x-form-item>
-                <x-label required>Description</x-label>
+                <x-label required>Добавить файлы</x-label>
                 <x-input type="file" class="form-control" name="images[]" multiple></x-input>
             </x-form-item>
 

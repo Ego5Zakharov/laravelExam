@@ -10,7 +10,8 @@ class CreateProductData
         public readonly string $title,
         public readonly string $description,
         public readonly Number $price,
-        public readonly bool $published
+        public readonly int    $quantity,
+        public readonly bool   $published
     )
     {
 

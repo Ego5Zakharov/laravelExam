@@ -13,7 +13,8 @@ class CreateProductAction
             'title' => $data->title,
             'description' => $data->description,
             'price' => $data->price,
-            'published' => $data->published
+            'published' => $data->published,
+            'quantity' => $data->quantity
         ]);
 
         foreach ($imagePaths as $imagePath) {

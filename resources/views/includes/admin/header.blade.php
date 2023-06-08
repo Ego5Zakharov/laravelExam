@@ -17,6 +17,20 @@
                         {{ __('Главная') }}
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('search.index') }}" class="nav-link {{ active_link('search.index') }}"
+                       aria-current="page">
+                        {{ __('Поиск Товаров') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('cart.index') }}" class="nav-link {{ active_link('cart.index') }}"
+                       aria-current="page">
+                        {{ __('Корзина') }}
+                    </a>
+                </li>
+
             </ul>
 
             @auth

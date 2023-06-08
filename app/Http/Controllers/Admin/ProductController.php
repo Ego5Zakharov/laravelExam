@@ -50,6 +50,7 @@ class ProductController extends Controller
                 title: $validated['title'],
                 description: $validated['description'],
                 price: new Number($validated['price']),
+                quantity: $validated['quantity'],
                 published: $validated['published'] ?? false
             ));
 
@@ -84,13 +85,13 @@ class ProductController extends Controller
             title: $validated['title'],
             description: $validated['description'],
             price: new Number($validated['price']),
+            quantity: $validated['quantity'],
             published: $validated['published'] ?? false
         ));
 
         (new UpdateProductAction())->run($data, $product, $imagesPaths);
         flash('Продукт успешно обновлен!', 'success');
         return redirect()->route('admin.products.show', $product);
-
     }
 
     public function edit($id)

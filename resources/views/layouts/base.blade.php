@@ -31,9 +31,9 @@
     </div>
 
     <div>
-
-        @include('includes.footer')
-
+        <footer>
+            @include('includes.footer')
+        </footer>
     </div>
 
 </div>
