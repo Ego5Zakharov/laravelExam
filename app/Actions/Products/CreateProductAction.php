@@ -9,13 +9,13 @@ class CreateProductAction
 {
     public function run(CreateProductData $data, array $imagePaths)
     {
-        $product = Product::query()->create([
-            'title' => $data->title,
-            'description' => $data->description,
-            'price' => $data->price,
-            'published' => $data->published,
-            'quantity' => $data->quantity
-        ]);
+        $product = new Product;
+        $product->title = $data->title;
+        $product->description = $data->description;
+        $product->price = $data->price;
+        $product->published = $data->published;
+        $product->quantity = $data->quantity;
+        $product->save();
 
         foreach ($imagePaths as $imagePath) {
             $image = new Image();
@@ -23,5 +23,7 @@ class CreateProductAction
             $image->product_id = $product->id;
             $image->save();
         }
+        return $product;
+
     }
 }

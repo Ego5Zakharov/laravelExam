@@ -81,12 +81,10 @@
 
                                 <div class="card-buttons">
 
-                                    {{--                            <x-form action={{route('user.cart.addProduct',$product)}} >--}}
-                                    {{--                                <x-button type="submit">--}}
-
-                                    {{--                                </x-button>--}}
-                                    {{--                            </x-form>--}}
-
+                                    <x-form action="{{route('cart.add',$product->id)}}" method="POST">
+                                        @csrf
+                                        <x-button type="submit">Добавить в корзину</x-button>
+                                    </x-form>
                                 </div>
                             </x-card>
                         </div>

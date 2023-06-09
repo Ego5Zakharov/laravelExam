@@ -28,33 +28,37 @@ class ProductController extends Controller
     public function index()
     {
         // asc,desc
-        $products = Product::query()->latest('id', 'desc')->paginate(100);
+        $products = Product::query()->latest('id', 'desc')->paginate(12);
 
         return view('admin.products.index', compact('products'));
     }
 
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::query()->get();
+        return view('admin.products.create', compact('categories'));
     }
 
     public function store(ProductRequest $request, FileUploader $fileUploader)
     {
         try {
-
             $validated = $request->validated();
 
             $imagesPaths = (new UploadProductImagesAction)->run($request, $fileUploader);
 
-            $data = (new CreateProductData(
+            $data = new CreateProductData(
                 title: $validated['title'],
                 description: $validated['description'],
                 price: new Number($validated['price']),
                 quantity: $validated['quantity'],
                 published: $validated['published'] ?? false
-            ));
+            );
 
-            (new CreateProductAction)->run($data, $imagesPaths);
+            $product = (new CreateProductAction)->run($data, $imagesPaths);
+
+            // Добавляем категории продукту
+            $categories = $request->input('categories', []);
+            $product->categories()->attach($categories);
 
             flash('Продукт успешно создан!', 'success');
             return redirect()->route('admin.products.index');
@@ -71,8 +75,8 @@ class ProductController extends Controller
         $product = Product::query()->findOrFail($id);
 
         $images = $product->images()->paginate(3);
-
-        return view('admin.products.show', compact(['product', 'images']));
+        $categories = $product->categories()->get();
+        return view('admin.products.show', compact(['product', 'images', 'categories']));
     }
 
     public function update(UpdateProductRequest $request, Product $product, FileUploader $fileUploader)
@@ -89,7 +93,15 @@ class ProductController extends Controller
             published: $validated['published'] ?? false
         ));
 
+        $existingCategoriesIds = $product->categories->pluck('id')->toArray();
+
+        $categories = array_diff($request->input('categories', []), $existingCategoriesIds);
+
+        $product->categories()->attach($categories);
+
         (new UpdateProductAction())->run($data, $product, $imagesPaths);
+
+
         flash('Продукт успешно обновлен!', 'success');
         return redirect()->route('admin.products.show', $product);
     }
@@ -98,18 +110,42 @@ class ProductController extends Controller
     {
         $product = Product::query()->findOrFail($id);
 
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::query()->get();
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function delete($id)
     {
         $product = Product::query()->findOrFail($id);
+
+        if ($product->images->count() > 0) {
+            foreach ($product->images as $image) {
+                Storage::delete($image->imagePath);
+                $image->delete();
+            }
+        }
+        $product->categories()->detach();
+
         $product->delete();
 
         flash('Продукт успешно удален!', 'success');
         return redirect()->route('admin.products.index');
     }
 
+    public function categoryDelete($productId, $categoryId)
+    {
+        $product = Product::query()->findOrFail($productId);
+
+        $category = $product->categories->firstWhere('id', $categoryId);
+        if ($category) {
+            $product->categories()->detach($category);
+            flash('Категория успешно удалена!', 'success');
+        } else {
+            flash('Категория не найдена!', 'danger');
+        }
+        return redirect()->back();
+    }
 
     public function search(Request $request)
     {

@@ -16,7 +16,7 @@
 
             <x-form-item>
                 <x-label required>Description</x-label>
-                <x-textarea  name="description"></x-textarea>
+                <x-textarea name="description"></x-textarea>
             </x-form-item>
 
             <x-form-item>
@@ -32,6 +32,17 @@
             <x-form-item>
                 <x-label class="" required>isPublished</x-label>
                 <x-input class="form-check-input" type="checkbox" name="published" value="1"></x-input>
+            </x-form-item>
+
+            <x-form-item>
+                <x-label required>Категории</x-label>
+
+                <select name="categories[]" class="form-select" multiple>
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
+                </select>
+
             </x-form-item>
 
             <x-form-item>

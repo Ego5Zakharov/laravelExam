@@ -22,7 +22,6 @@
 
             <div class="col-md-6">
                 <div class="text-start">
-
                     <div class="mb-3 mt-5">
                         <b>Описание:</b>
                     </div>
@@ -36,23 +35,40 @@
                     </div>
 
                     <div class="mb-3">
-                        <b>Количество на складе:</b> {{ $product->quantity ? $product->quantity : 'Нет на складе!' }}1
+                        <b>Количество на складе:</b> {{ $product->quantity ? $product->quantity : 'Нет на складе!' }}
                     </div>
-
 
                     <div class="mb-3">
                         <b>Опубликовано:</b> {{$product->published ? 'Да' : 'Нет'}}
                     </div>
 
-                    <x-form action="{{route('admin.products.delete',$product)}}">
+                    <div class="col-md-6">
+                        <div class="text-center fw-bolder h3">Уже имеющиеся категории:</div>
+                        @if($categories->count()>0)
+                            <div class="mb-4">
+                                @foreach($categories as $category)
+                                    <ul class="list-group">
+                                        <li class="list-group-item">{{$category->name}}</li>
+                                    </ul>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="" style="height: 200px">
+                                <div class="text-center">Категорий нет!</div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <x-form action="{{route('admin.products.delete',$product)}}" method="POST">
+                        @csrf
                         <x-button type="submit">Удалить</x-button>
                     </x-form>
 
                     <x-link href="{{route('admin.products.edit',$product)}}">Редактировать</x-link>
-
                 </div>
             </div>
         </div>
+
         @if($images->count()>0)
             <div class="row">
                 <div class="col-md-6">
@@ -73,7 +89,6 @@
                 </div>
             </div>
         @endif
-
 
     </x-container>
 

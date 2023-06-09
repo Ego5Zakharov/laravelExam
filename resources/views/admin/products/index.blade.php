@@ -22,6 +22,7 @@
             </x-table.header>
 
             <x-table.body>
+                <div class="mt-2">{{$products->links()}}</div>
                 @foreach($products as $product)
                     <x-table.row>
                         <x-table.col>{{$product->id}}</x-table.col>
@@ -53,15 +54,16 @@
                                 <x-button type="submit">Удалить</x-button>
                             </x-form>
                             <x-link href="{{route('admin.products.edit',$product)}}">Изменить</x-link>
-
-
                         </x-table.col>
 
-
                     </x-table.row>
+
                 @endforeach
+
             </x-table.body>
         </x-table.table>
+        <div class="mt-2">{{$products->links()}}</div>
+
     </x-container>
 
 @endsection
