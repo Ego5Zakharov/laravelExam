@@ -225,11 +225,13 @@ class CartController extends Controller
 
         if ($action === 'decrease_quantity') {
             $newQuantity = $cartProduct->pivot->quantity - $changeQuantity;
-            if ($newQuantity < $cartProduct->pivot->quantity) {
+            if ($newQuantity <= 0) {
                 $cart->products()->detach($cartProduct);
+                flash('Предмет успешно удален из корзины!', 'primary');
+            } else {
+                $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
+                flash('Обновлено!', 'primary');
             }
-            $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
-            flash('Обновлено!', 'primary');
 
         } elseif ($action === 'increase_quantity') {
             if ($changeQuantity < 99) {
