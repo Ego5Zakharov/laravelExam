@@ -38,11 +38,18 @@
                         <b>Количество на складе:</b> {{ $product->quantity ? $product->quantity : 'Нет на складе!' }}
                     </div>
 
+                    @if(Auth::check())
+                        <x-form action="{{route('cart.add',$product->id)}}" method="POST">
+                            @csrf
+                            <x-button type="submit">Добавить в корзину</x-button>
+                        </x-form>
 
-                    <x-form action="{{route('cart.add',$product->id)}}" method="POST">
-                        @csrf
-                        <x-button type="submit">Добавить в корзину</x-button>
-                    </x-form>
+                    @else
+                        <x-form action="{{route('cart.addSession',$product->id)}}" method="POST">
+                            @csrf
+                            <x-button type="submit">Добавить в корзину(session)</x-button>
+                        </x-form>
+                    @endif
 
                 </div>
             </div>

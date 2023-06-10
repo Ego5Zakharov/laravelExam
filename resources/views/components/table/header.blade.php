@@ -1,4 +1,4 @@
-<thead {{$attributes->merge()}}>
+<thead {{$attributes}}>
 
 <x-table.row>
     {{$slot}}

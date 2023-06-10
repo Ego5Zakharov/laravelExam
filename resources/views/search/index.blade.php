@@ -80,11 +80,18 @@
                                 </x-card-body>
 
                                 <div class="card-buttons">
+                                    @if(Auth::check())
+                                        <x-form action="{{route('cart.add',$product->id)}}" method="POST">
+                                            @csrf
+                                            <x-button type="submit">Добавить в корзину</x-button>
+                                        </x-form>
+                                    @else
+                                        <x-form action="{{route('cart.addSession',$product->id)}}" method="POST">
+                                            @csrf
+                                            <x-button type="submit">Добавить в корзину(Session)</x-button>
+                                        </x-form>
+                                    @endif
 
-                                    <x-form action="{{route('cart.add',$product->id)}}" method="POST">
-                                        @csrf
-                                        <x-button type="submit">Добавить в корзину</x-button>
-                                    </x-form>
                                 </div>
                             </x-card>
                         </div>

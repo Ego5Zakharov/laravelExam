@@ -22,13 +22,21 @@ Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
 // работа с продуктом
 Route::get('product/{id}', [ProductController::class, 'show'])->name('product.show');
+
 // работа с корзиной
-Route::post('cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::put('cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('cart/{id}/delete', [CartController::class, 'delete'])->name('cart.delete');
+
+// работа с корзиной с сессиями
+Route::post('cart/{id}/addSession', [CartController::class, 'addSession'])->name('cart.addSession');
+Route::post('cart/deleteCartSession', [CartController::class, 'deleteCartSession'])->name('cart.deleteCartSession');
+Route::post('cart/{id}/deleteCartSessionProduct', [CartController::class, 'deleteCartSessionProduct'])->name('cart.deleteCartSessionProduct');
+Route::post('cart/{id}/updateSessionProduct', [CartController::class, 'updateSessionProduct'])->name('cart.updateSessionProduct');
 
 
-Route::post('/card/add/{product}', [CartController::class, 'add'])->name('card.add');
 Route::get('/bootstrap', function () {
     return view('bootstrap.bootstrap');
 });
