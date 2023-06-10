@@ -29,6 +29,7 @@ Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::put('cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('cart/{id}/delete', [CartController::class, 'delete'])->name('cart.delete');
+Route::post('cart/deleteAll', [CartController::class, 'deleteAll'])->name('cart.deleteAll');
 
 // работа с корзиной с сессиями
 Route::post('cart/{id}/addSession', [CartController::class, 'addSession'])->name('cart.addSession');

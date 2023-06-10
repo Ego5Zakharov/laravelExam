@@ -1,9 +1,6 @@
 @extends('layouts.base')
 @php
-    $cartPrice = 0;
-    foreach ($products as $product) {
-        $cartPrice += $product['price'] * $product['quantity'];
-    }
+
 @endphp
 
 @section('content')

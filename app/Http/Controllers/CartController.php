@@ -111,6 +111,7 @@ class CartController extends Controller
     {
         $products = null;
         $cartItemCount = 0;
+        $cartPrice = 0;
 
         if (Auth::check()) {
             $user = Auth::user();
@@ -121,7 +122,11 @@ class CartController extends Controller
                 $cartItemCount = $products->count();
             }
 
-            return view('cart.index', compact('products', 'cartItemCount'));
+            foreach ($products as $product) {
+                $cartPrice += $product->price * $product->pivot->quantity;
+            }
+
+            return view('cart.index', compact('products', 'cartItemCount', 'cartPrice'));
         } else {
             $cart = session()->get('cart', []);
             $cartPrice = 0;
@@ -144,12 +149,15 @@ class CartController extends Controller
                 }
             }
 
+            foreach ($products as $product) {
+                $cartPrice += $product['price'] * $product['quantity'];
+            }
+
             $cartItemCount = count($products);
 
-            return view('cart.index', compact('products', 'cartItemCount',));
+            return view('cart.index', compact('products', 'cartItemCount', 'cartPrice'));
         }
     }
-
 
     public function add($id, $quantity = 1)
     {
@@ -170,7 +178,6 @@ class CartController extends Controller
             } else {
                 $cart->products()->attach($product->id, ['quantity' => 1]);
             }
-
         }
 
         flash('Товар успешно добавлен в корзину!', 'success');
@@ -191,6 +198,20 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    public function deleteAll()
+    {
+        if (Auth::check()) {
+            if ($cart = Auth::user()->cart) {
+                if ($cart->products()->count() > 0) {
+                    foreach ($cart->products as $product) {
+                        $cart->products()->detach($product->id);
+                    }
+                    flash('Корзина очищена!', 'primary');
+                }
+            }
+        }
+        return redirect()->back();
+    }
 
     public function update($id, Request $request)
     {
@@ -198,29 +219,28 @@ class CartController extends Controller
         $cart = Auth::user()->cart;
 
         $action = $request->input('action');
-        $changeQuantity = $request->input('change_quantity');
+        $changeQuantity = $request->input('quantity');
 
         $cartProduct = $cart->products()->find($product->id);
 
-        if ($action === 'decrease') {
-            if ($changeQuantity >= 1) {
-                $newQuantity = $cartProduct->pivot->quantity - $changeQuantity;
-                if ($newQuantity > 0) {
-                    $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
-                } else {
-                    $cart->products()->detach($product->id);
-                    flash('Предмет успешно удален из корзины!', 'primary');
-                }
-                flash('Обновлено!', 'primary');
+        if ($action === 'decrease_quantity') {
+            $newQuantity = $cartProduct->pivot->quantity - $changeQuantity;
+            if ($newQuantity < $cartProduct->pivot->quantity) {
+                $cart->products()->detach($cartProduct);
             }
-        } elseif ($action == 'increase') {
+            $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
+            flash('Обновлено!', 'primary');
+
+        } elseif ($action === 'increase_quantity') {
             if ($changeQuantity < 99) {
                 $newQuantity = $cartProduct->pivot->quantity + $changeQuantity;
-                $cartProduct->pivot->update(['quantity' => $newQuantity]);
+                $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
                 flash('Обновлено!', 'primary');
             }
         }
 
         return redirect()->route('cart.index');
     }
+
+
 }

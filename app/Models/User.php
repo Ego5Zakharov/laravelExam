@@ -18,7 +18,8 @@ class User extends Authenticatable
         'email',
         'avatar',
         'password',
-        'active'
+        'active',
+        'cart_id'
     ];
 
 

@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <form action="{{ route('login.store') }}" method="POST" class="shadow p-5 rounded-4 text-bg-light ">
                     @csrf
-
+                    <input type="hidden" name="cart" value="{{ json_encode(session('cart', [])) }}">
                     <div class="h2 text-center">{{__('Авторизация')}}</div>
                     <div class="mb-3 ">
                         <label for="email" class="form-label">{{__('Почта')}}</label>
