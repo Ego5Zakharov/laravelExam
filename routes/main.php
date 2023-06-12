@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -38,9 +39,13 @@ Route::post('cart/{id}/deleteCartSessionProduct', [CartController::class, 'delet
 Route::post('cart/{id}/updateSessionProduct', [CartController::class, 'updateSessionProduct'])->name('cart.updateSessionProduct');
 
 
-Route::get('/bootstrap', function () {
-    return view('bootstrap.bootstrap');
-});
+Route::get('checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
+Route::post('checkout', [PaymentController::class, 'processPayment'])->name('payment.process');
+
+//
+//Route::get('/bootstrap', function () {
+//    return view('bootstrap.bootstrap');
+//});
 
 
 //Route::get('transaction', [\App\Http\Controllers\TransactionController::class,

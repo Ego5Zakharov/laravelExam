@@ -19,9 +19,11 @@ class User extends Authenticatable
         'avatar',
         'password',
         'active',
+        'balance',
         'cart_id'
     ];
 
+    protected $casts = ['balance'=>'integer'];
 
     protected $hidden = [
         'password',

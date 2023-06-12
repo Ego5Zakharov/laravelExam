@@ -19,33 +19,9 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
         if (Auth::attempt($credentials)) {
-            flash('Вы успешно аунтефицировались!', 'success');
+            flash('Вы успешно аутентифицировались!', 'success');
 
-            $cartData = $request->input('cart');
-            $cart = json_decode($cartData, true);
-
-            if (!empty($cart)) {
-                $user = Auth::user();
-
-                if (!$user->cart) {
-                    $cart = new Cart();
-                    $user->cart()->save($cart);
-                }
-
-                foreach ($cart as $productId => $cartItem) {
-                    $product = Product::query()->find($productId);
-
-                    if ($product) {
-                        if ($user->cart->products()->find($product->id)) {
-                            $user->cart->products()->updateExistingPivot($product->id,
-                                ['quantity' => $cartItem['quantity']]);
-                        }
-                        else{
-                            $user->cart->products()->attach($product);
-                        }
-                    }
-                }
-            }
+            Cart::syncCartWithDatabaseAndClearSession($request);
 
             return redirect()->route('home');
         }

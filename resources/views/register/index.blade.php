@@ -9,6 +9,7 @@
                 <form action="{{route('register.store')}}" method="POST" class="shadow p-5 rounded-4 text-bg-light">
                     @csrf
 
+                    <input type="hidden" name="cart" value="{{json_encode(session('cart',[])) }}">
                     <div class="mb-3 h2 text-center">Регистрация</div>
                     <div class="mb-3">
                         <label for="email" class="form-label">{{__('Почта')}}</label>

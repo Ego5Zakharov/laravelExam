@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +36,7 @@ class CartController extends Controller
                 $cartItemCount++;
                 $cart['cartItemCount'] = $cartItemCount;
             }
+
             session()->put('cart', $cart);
             flash('Товар успешно добавлен в корзину!', 'success');
         }
@@ -121,15 +124,14 @@ class CartController extends Controller
                 $products = $cart->products;
                 $cartItemCount = $products->count();
             }
+            $cartPrice = Cart::getCartTotalPrice();
 
-            foreach ($products as $product) {
-                $cartPrice += $product->price * $product->pivot->quantity;
-            }
+            Cart::updateCartTotalPrice();
+            CartProduct::updateProductTotalPrice();
 
             return view('cart.index', compact('products', 'cartItemCount', 'cartPrice'));
         } else {
             $cart = session()->get('cart', []);
-            $cartPrice = 0;
             $products = [];
 
             foreach ($cart as $productId => $cartItem) {

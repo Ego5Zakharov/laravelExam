@@ -7,7 +7,10 @@ use App\Actions\Users\CreateUserAction;
 use App\Actions\Users\CreateUserData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\Cart;
+use App\Models\Product;
 use App\Models\User;
+use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
@@ -30,8 +33,13 @@ class RegisterController extends Controller
         $user = (new CreateUserAction)->run($userData);
 
         if ((new AuthenticateUserAction)->withSession($user)) {
+
+            Cart::syncCartWithDatabaseAndClearSession($request);
+
             return redirect()->route('home');
         }
         return redirect()->back();
     }
+
+
 }

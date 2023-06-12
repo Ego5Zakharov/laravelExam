@@ -12,7 +12,8 @@ class Product extends Model
 
     protected $fillable = ['title', 'description', 'price', 'quantity', 'published', 'cart_id'];
 
-    protected $casts = ['published' => 'boolean'];
+    protected $casts = ['published' => 'boolean', 'price' => 'integer'];
+
 
     public function images()
     {

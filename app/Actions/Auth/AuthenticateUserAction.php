@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
-// аунтентифицировать юзера
 class AuthenticateUserAction
 {
     public function withAttributes(array $attributes)

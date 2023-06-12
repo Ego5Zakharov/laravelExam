@@ -19,6 +19,7 @@
                             <div class="col card-text">
                                 <h2>{{ $user->name }}</h2>
                                 <p>{{ $user->email }}</p>
+                                <p>Баланс: {{ $user->balance }} т</p>
                                 <p>Активность: {{ $user->active ? 'Активен' : 'Неактивен' }}</p>
                                 <x-link href="{{route('user.account.edit')}}">Настройки</x-link>
                             </div>
