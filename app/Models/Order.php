@@ -13,14 +13,10 @@ class Order extends Model
     protected $fillable = [
         'amount',
         'discount_amount',
-        'user_amount'
+        'user_amount',
+        'user_id'
     ];
 
-    protected $casts = [
-        'amount' => Number::class,
-        'discount_amount' => Number::class,
-        'user_amount' => Number::class
-    ];
 
     public function user()
     {
@@ -31,10 +27,18 @@ class Order extends Model
     {
         return $this->belongsToMany(
             Product::class,
-            'order_items',
+            'order_products',
             'order_id',
             'product_id');
     }
 
+    public function details()
+    {
+        return $this->hasOne(OrderDetail::class);
+    }
 
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class);
+    }
 }

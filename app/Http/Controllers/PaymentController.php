@@ -17,14 +17,16 @@ class PaymentController extends Controller
 {
     protected CurrencyConverter $currencyConverter;
 
+    protected Number $amount;
+
     public function __construct(CurrencyConverter $currencyConverter)
     {
         $this->currencyConverter = $currencyConverter;
     }
 
-    public function checkout()
+    public function index()
     {
-        return view('payment.checkout');
+        return view('payment.index');
     }
 
     // 4242424242424242
@@ -50,8 +52,11 @@ class PaymentController extends Controller
             ], 500);
         }
 
+        $this->amount = new Number($validated['amount']);
+        $this->amount = $this->amount->mul(100);
+
         $charge = Charge::create([
-            'amount' => $validated['amount'] * 100,
+            'amount' => (int)$this->amount->value,
             'currency' => 'usd',
             'source' => $token->id,
         ]);
@@ -61,12 +66,12 @@ class PaymentController extends Controller
             return redirect()->back();
         }
 
-        $this->accountRefill($charge['amount']);
+        $this->accountRefill($this->amount);
 
         return redirect()->route('home');
     }
 
-    public function accountRefill($amount)
+    public function accountRefill(Number $amount)
     {
         if (!Auth::check()) {
             redirect()->back();
@@ -74,10 +79,11 @@ class PaymentController extends Controller
 
         $user = Auth::user();
         $exchangeRate = $this->currencyConverter->getExchangeRate('USD', 'KZT');
-        $amountKZT = ($amount * $exchangeRate)/100;
-        $user->balance += $amountKZT;
 
+        $amountKZT = $amount->mul($exchangeRate)->div(100);
+        $user->balance += (int)$amountKZT->value;
         $user->save();
-        flash('Баланс пополнен на ' . (int)$amountKZT . ' тенге!', 'success');
+
+        flash('Баланс пополнен на ' . (int)$amountKZT->value . ' тенге!', 'success');
     }
 }

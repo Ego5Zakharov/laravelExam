@@ -4,9 +4,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,13 +41,12 @@ Route::post('cart/{id}/deleteCartSessionProduct', [CartController::class, 'delet
 Route::post('cart/{id}/updateSessionProduct', [CartController::class, 'updateSessionProduct'])->name('cart.updateSessionProduct');
 
 
-Route::get('checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
-Route::post('checkout', [PaymentController::class, 'processPayment'])->name('payment.process');
+Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::post('payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
 
-//
-//Route::get('/bootstrap', function () {
-//    return view('bootstrap.bootstrap');
-//});
+Route::get('checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+
+Route::post('/send-sms', [SmsController::class, 'sendSms'])->name('send.sms');
 
 
 //Route::get('transaction', [\App\Http\Controllers\TransactionController::class,

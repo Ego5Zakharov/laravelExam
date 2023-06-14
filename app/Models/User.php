@@ -23,12 +23,13 @@ class User extends Authenticatable
         'cart_id'
     ];
 
-    protected $casts = ['balance'=>'integer'];
+    protected $casts = ['balance' => 'integer'];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
 
     public function cart()
     {
@@ -44,6 +45,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+
 
     protected static function boot()
     {

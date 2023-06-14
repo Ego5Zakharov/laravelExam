@@ -1,13 +1,21 @@
 @extends('layouts.base')
 
 @section('content')
-    <x-container>
+    <x-container class="">
         @if($cartItemCount>0)
-            <div class="text-start mb-2">
-                <div class="text-start display-6">Корзина</div>
+            <div class="mb-2 d-flex justify-content-between ">
+
+                <div class="text-start display-6 ">Корзина</div>
+
+                <div class="display-6">
+                    <x-form action="{{route('cart.deleteAll')}}" method="POST">
+                        @csrf
+                        <x-button class="border rounded" type="submit">Очистить корзину</x-button>
+                    </x-form>
+                </div>
             </div>
 
-            <x-table.table class="">
+            <x-table.table class="rounded-5 border">
                 <x-table.header class="bg-light">
                     <x-table.col>Наименование</x-table.col>
                     <x-table.col>Цена</x-table.col>
@@ -56,25 +64,11 @@
             <div class="text-start display-5 mb-4">Количество товаров: {{ $cartItemCount }}</div>
             <div class="text-start  h3 mb-4" style="line-height: 1.2;font-weight: 300;">К оплате: {{ $cartPrice }}</div>
 
-            <x-form action="{{route('cart.deleteAll')}}" method="POST">
-                @csrf
-                <x-button class="border rounded" type="submit">Очистить корзину</x-button>
-            </x-form>
+
+            <x-link class="btn border" href="{{route('order.checkout')}}">Доставка</x-link>
         @else
-            <div class="container text-center mt-5">
-                <img src="https://www.mechta.kz/img/empty-basket.509db28f.svg" alt="Empty basket"
-                     style="width: 328px; height: 260px;">
-                <div class="h5 mt-4">В корзине пока ничего нет</div>
-                <div class="text-muted mt-3">Вы можете начать свой выбор с главной страницы, посмотреть акции или
-                    воспользоваться поиском, если ищете что-то конкретное
-                </div>
-                <div class="row mt-4">
-                    <div class="text-center">
-                        <x-link class="p-2 btn btn-secondary border-success" href="{{route('search.index')}}">Товары
-                        </x-link>
-                    </div>
-                </div>
-            </div>
+            @include('cart.empry_cart')
         @endif
+
     </x-container>
 @endsection

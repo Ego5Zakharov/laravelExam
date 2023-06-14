@@ -52,6 +52,11 @@ class Cart extends Model
         session()->forget('cart.cartItemCount');
     }
 
+    static public function getCartItemCount()
+    {
+        return Auth::user()->cart->products->count();
+    }
+
     static public function getCartTotalPrice()
     {
         return (int)Auth::user()->cart->products()->sum(DB::raw('cart_product.quantity * products.price'));

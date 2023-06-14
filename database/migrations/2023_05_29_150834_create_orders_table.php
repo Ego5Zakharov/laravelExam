@@ -13,13 +13,6 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-
-            // сумма заказа
-            $table->decimal('amount', 12, 2);
-            // сумма скидки
-            $table->decimal('discount_amount', 12, 2);
-            // итоговая сумма к удалению
-            $table->decimal('user_amount', 12, 2);
         });
     }
 
