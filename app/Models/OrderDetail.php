@@ -20,7 +20,7 @@ class OrderDetail extends Model
     protected $casts = [
         'amount' => Number::class,
         'discount_amount' => Number::class,
-        'user_amount' => Number::class
+        'total_amount' => Number::class
     ];
 
     public function order()

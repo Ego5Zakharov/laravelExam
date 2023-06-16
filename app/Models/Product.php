@@ -45,4 +45,10 @@ class Product extends Model
             'product_id',
             'order_id');
     }
+
+    public static function setQuantity(Product $product, int $new_quantity)
+    {
+        $product->quantity = $new_quantity;
+        $product->save();
+    }
 }

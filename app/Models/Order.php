@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
+use App\Actions\OrderDetails\CreateOrderDetailsData;
 use App\Support\Values\Number;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'amount',
-        'discount_amount',
-        'user_amount',
-        'user_id'
+        'user_id', 'is_paid'
     ];
-
 
     public function user()
     {
@@ -29,7 +28,7 @@ class Order extends Model
             Product::class,
             'order_products',
             'order_id',
-            'product_id');
+            'product_id')->withPivot(['quantity', 'price']);
     }
 
     public function details()
@@ -40,5 +39,30 @@ class Order extends Model
     public function delivery()
     {
         return $this->hasOne(Delivery::class);
+    }
+
+    public static function getOrderTotalSum($orderId)
+    {
+        return (int)Auth::user()
+            ->orders
+            ->find($orderId)
+            ->products()
+            ->sum(DB::raw('order_products.quantity * products.price'));
+    }
+
+    public static function getOrderProductCount($orderId)
+    {
+        return Auth::user()->orders->find($orderId)->products()->count();
+    }
+
+    public static function orderDelete($orderId)
+    {
+        $order = Order::query()->find($orderId);
+        if ($order) {
+            $order->details()->delete();
+            $order->products()->detach();
+            $order->delivery()->delete();
+            $order->delete();
+        }
     }
 }

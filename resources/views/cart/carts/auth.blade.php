@@ -65,9 +65,9 @@
             <div class="text-start  h3 mb-4" style="line-height: 1.2;font-weight: 300;">К оплате: {{ $cartPrice }}</div>
 
 
-            <x-link class="btn border" href="{{route('order.checkout')}}">Доставка</x-link>
+            <x-link class="btn border" href="{{route('delivery.create')}}">Доставка</x-link>
         @else
-            @include('cart.empry_cart')
+            @include('cart.empty_cart')
         @endif
 
     </x-container>

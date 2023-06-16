@@ -3,9 +3,14 @@
 @section('content')
 
     <x-container>
-        @if($cartItemCount > 0)
-            <div class="text-start mb-2">
+        @if($orderItemCount > 0)
+            <div class="d-flex justify-content-between align-items-end mb-2 ">
                 <div class="text-start display-6">Оплата заказа</div>
+                <x-form action="{{route('order.delete',$order->id)}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <x-button type="submit" class="btn border border-danger text-danger">Удалить Заказ</x-button>
+                </x-form>
             </div>
 
             <div class="row ">
@@ -38,11 +43,15 @@
                 </div>
                 <div class="col-md-4">
                     <div class="border rounded-2 text-center">
-                        <div class=" display-5 mb-4">Количество товаров: {{ $cartItemCount }}</div>
+                        <div class=" display-5 mb-4">Количество товаров: {{ $orderItemCount }}</div>
                         <div class="  h3 mb-4" style="line-height: 1.2;font-weight: 300;">К
-                            оплате: {{ $cartPrice }}</div>
-                        <div class=" mb-4">
-                            <x-button class="btn border">Оплатить</x-button>
+                            оплате: {{ $orderPrice }}</div>
+                        <div class=" mb-4 d-flex justify-content-around">
+                            <x-form action="{{route('order.store',$order->id)}}" method="POST">
+                                @csrf
+                                <x-button type="submit" class="btn border">Оплатить</x-button>
+                            </x-form>
+
                         </div>
                     </div>
                 </div>

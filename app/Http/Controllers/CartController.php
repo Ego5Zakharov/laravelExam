@@ -13,8 +13,12 @@ class CartController extends Controller
     public function addSession($id, $quantity = 1)
     {
         $product = Product::find($id);
+        if ($this->outOfStock($product)) {
+            return redirect()->back();
+        }
 
-        $cartItemCount = session('cart.cartItemCount', 0);
+        if ($product)
+            $cartItemCount = session('cart.cartItemCount', 0);
 
         if ($product) {
             $cart = session()->get('cart', []);
@@ -165,6 +169,10 @@ class CartController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        if ($this->outOfStock($product)) {
+            return redirect()->back();
+        }
+
         if (Auth::check()) {
             $user = Auth::user();
             $cart = $user->cart;
@@ -246,5 +254,13 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
+    public function outOfStock(Product $product)
+    {
+        if ($product->quantity === 0) {
+            flash('Товара нет на складе!', 'warning');
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -11,7 +11,7 @@ class ApplyOrderDiscount
     {
         return $order->update([
             'discount_amount' => $discount,
-            'user_amount' => $order->amount->sub($discount)
+            'total_amount' => $order->amount->sub($discount)
         ]);
     }
 }

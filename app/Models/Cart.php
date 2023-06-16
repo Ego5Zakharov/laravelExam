@@ -54,12 +54,12 @@ class Cart extends Model
 
     static public function getCartItemCount()
     {
-        return Auth::user()->cart->products->count();
+        return Auth::user()->cart->products->count() ?? 0;
     }
 
     static public function getCartTotalPrice()
     {
-        return (int)Auth::user()->cart->products()->sum(DB::raw('cart_product.quantity * products.price'));
+        return (int)Auth::user()->cart->products()->sum(DB::raw('cart_product.quantity * products.price')) ?? 0;
     }
 
     static public function updateCartTotalPrice()

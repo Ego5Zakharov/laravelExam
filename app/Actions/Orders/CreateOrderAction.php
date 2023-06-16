@@ -2,17 +2,34 @@
 
 namespace App\Actions\Orders;
 
+use App\Actions\OrderDetails\CreateOrderDetailsAction;
+use App\Actions\OrderDetails\CreateOrderDetailsData;
 use App\Models\Order;
 use App\Support\Values\Number;
+use Illuminate\Support\Facades\Auth;
 
 class CreateOrderAction
 {
-    public function run(CreateOrderData $data): Order
+    /**
+     * @return Order|null
+     */
+    public function run()
     {
-        return Order::query()->create([
-            'amount' => $data->amount,
-            'discount_amount' => new Number(),
-            'user_amount' => $data->amount
-        ]);
+        if (Auth::check() && !empty(Auth::user()->cart)) {
+            $user = Auth::user();
+            $order = new Order();
+            $order->user_id = $user->id;
+            $order->save();
+
+            $cartProducts = $user->cart->products;
+
+            foreach ($cartProducts as $product) {
+                $quantity = $product->pivot->quantity ?? 1;
+                $order->products()->attach($product->id, ['quantity' => $quantity]);
+            }
+
+            return $order;
+        }
+        return null;
     }
 }
