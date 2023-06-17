@@ -46,6 +46,11 @@ class Product extends Model
             'order_id');
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
     public static function setQuantity(Product $product, int $new_quantity)
     {
         $product->quantity = $new_quantity;

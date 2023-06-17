@@ -3,6 +3,8 @@
 
 @section('content')
 
+    @include('includes.main_header')
+
     <x-container>
         <div class="">Мой контент 1</div>
         <div class="">Мой контент 2</div>

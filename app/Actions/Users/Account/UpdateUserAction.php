@@ -7,13 +7,19 @@ use App\Models\User;
 
 class UpdateUserAction
 {
-    public function run(UpdateUserData $data, $user)
+    public function run(UpdateUserData $data, $userId)
     {
-        return $user::query()->update([
-            'name' => $data->name,
-            'avatar' => $data->avatar,
-        ]);
+        $user = User::query()->find($userId);
 
+        if ($user) {
+            $user->toQuery()->update([
+                'name' => $data->name,
+                'avatar' => $data->avatar,
+            ]);
+            return $user;
+
+        }
+        return false;
     }
 }
 

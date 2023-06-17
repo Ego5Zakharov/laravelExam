@@ -45,12 +45,12 @@ class DeliveryController extends Controller
         $order->details()->save($orderDetails);
         $order->delivery()->save($delivery);
 
-        if (Order::getOrderTotalSum($order->id) <= 0 || Order::getOrderProductCount($order->id) <= 0) {
-            $this->deleteOrder($order);
-
-            flash('Ошибка Заказа!');
-            return redirect()->back();
-        }
+//        if (Order::getOrderTotalSum($order->id) <= 0 || Order::getOrderProductCount($order->id) <= 0) {
+//            $this->deleteOrder($order);
+//
+//            flash('Ошибка Заказа!');
+//            return redirect()->back();
+//        }
 
         flash('Оплатите заказ для продолжения работы!', 'primary');
 

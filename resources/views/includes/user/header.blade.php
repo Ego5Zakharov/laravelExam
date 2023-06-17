@@ -10,7 +10,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 d-flex justify-content-around">
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link {{ active_link('home') }}"
                            aria-current="page">

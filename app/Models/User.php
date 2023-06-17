@@ -46,7 +46,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 
     protected static function boot()
     {
@@ -75,11 +78,8 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-
         return $this->roles()->where('name', 'admin')->exists();
-
     }
-
 
     public function hasRole(string $roleName)
     {

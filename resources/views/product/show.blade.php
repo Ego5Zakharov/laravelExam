@@ -54,6 +54,7 @@
                 </div>
             </div>
         </div>
+
         @if($images->count()>0)
             <div class="row">
                 <div class="col-md-6">
@@ -75,15 +76,31 @@
             </div>
         @endif
 
+        <div class="row">
+            <div class="col-6 border shadow bg-light"><p class="display-5">Отзывы</p></div>
+            <div class="col-6 border shadow bg-light">
+                <x-button type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                    <p class="display-5">
+                        Оставить отзыв
+                    </p>
+                </x-button>
+            </div>
+
+            @if($product->feedbacks()->count() === 0)
+                <div class="col-12 border">
+                    <h3 class="display-7 pt-3">
+                        Пока отзывов нет.
+                        Будьте первыми, поделитесь своим опытом использования товара.
+                    </h3>
+                </div>
+            @else
+
+            @endif
+        </div>
 
     </x-container>
+    @include('product.modals.feedback')
 
-    <script>
-        function changeMainImage(imageUrl) {
-            // Изменяем главное изображение на выбранное с анимацией
-            $('#main-image').fadeOut(200, function () {
-                $(this).attr('src', imageUrl).fadeIn(200);
-            });
-        }
-    </script>
 @endsection
+
+

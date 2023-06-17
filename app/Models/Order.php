@@ -47,12 +47,12 @@ class Order extends Model
             ->orders
             ->find($orderId)
             ->products()
-            ->sum(DB::raw('order_products.quantity * products.price'));
+            ->sum(DB::raw('order_products.quantity * products.price')) ?? 0;
     }
 
     public static function getOrderProductCount($orderId)
     {
-        return Auth::user()->orders->find($orderId)->products()->count();
+        return Auth::user()->orders->find($orderId)->products()->count() ?? 0;
     }
 
     public static function orderDelete($orderId)

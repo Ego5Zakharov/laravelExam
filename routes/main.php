@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
@@ -25,10 +26,15 @@ Route::post('login/logout', [LoginController::class, 'logout'])->name('login.log
 Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
 // работа с продуктом
-Route::get('product/{id}', [ProductController::class, 'show'])->name('product.show');
+Route::get('product/{productId}/show', [ProductController::class, 'show'])->name('product.show');
+
+// работа с комментариями
+
+Route::get('feedbacks/{productId}/create', [CommentController::class, 'create'])->name('feedback.create');
+Route::post('feedbacks/{productId}', [CommentController::class, 'store'])->name('feedback.store');
+
 
 // работа с корзиной
-
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::put('cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
@@ -41,10 +47,8 @@ Route::post('cart/deleteCartSession', [CartController::class, 'deleteCartSession
 Route::post('cart/{id}/deleteCartSessionProduct', [CartController::class, 'deleteCartSessionProduct'])->name('cart.deleteCartSessionProduct');
 Route::post('cart/{id}/updateSessionProduct', [CartController::class, 'updateSessionProduct'])->name('cart.updateSessionProduct');
 
-
 Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
-
 
 Route::get('delivery', [DeliveryController::class, 'create'])->name('delivery.create');
 Route::post('delivery/store', [DeliveryController::class, 'store'])->name('delivery.store');
@@ -52,6 +56,7 @@ Route::post('delivery/store', [DeliveryController::class, 'store'])->name('deliv
 Route::get('checkout', [OrderController::class, 'checkout'])->name('order.checkout');
 Route::post('checkout/{id}/store', [OrderController::class, 'store'])->name('order.store');
 Route::delete('order/{id}/delete', [OrderController::class, 'delete'])->name('order.delete');
+
 
 Route::post('/send-sms', [SmsController::class, 'sendSms'])->name('send.sms');
 

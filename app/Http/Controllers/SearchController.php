@@ -13,7 +13,6 @@ class SearchController extends Controller
 
         $search = $request->input('search');
 
-
         $orderBy = $request->input('sort', 'asc');
 
         if (!empty($request->input('search')) && $orderBy === 'desc') {

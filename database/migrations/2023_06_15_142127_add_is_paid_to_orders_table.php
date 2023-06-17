@@ -13,7 +13,7 @@ class AddIsPaidToOrdersTable extends Migration
             $table->boolean('is_paid')->default(0);
         });
     }
-
+    
 
     public function down()
     {
