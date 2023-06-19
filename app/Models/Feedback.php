@@ -18,9 +18,14 @@ class Feedback extends Model
         , 'visible' => 'boolean'
     ];
 
-    public function products()
+    public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

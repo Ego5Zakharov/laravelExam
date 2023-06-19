@@ -28,10 +28,11 @@ Route::get('search', [SearchController::class, 'index'])->name('search.index');
 // работа с продуктом
 Route::get('product/{productId}/show', [ProductController::class, 'show'])->name('product.show');
 
-// работа с комментариями
 
-Route::get('feedbacks/{productId}/create', [CommentController::class, 'create'])->name('feedback.create');
+// работа с комментариями
 Route::post('feedbacks/{productId}', [CommentController::class, 'store'])->name('feedback.store');
+Route::post('feedbacks/{feedbackId}/like', [CommentController::class, 'like'])->name('feedback.like');
+Route::post('feedbacks/{feedbackId}/dislike', [CommentController::class, 'dislike'])->name('feedback.dislike');
 
 
 // работа с корзиной
@@ -47,8 +48,10 @@ Route::post('cart/deleteCartSession', [CartController::class, 'deleteCartSession
 Route::post('cart/{id}/deleteCartSessionProduct', [CartController::class, 'deleteCartSessionProduct'])->name('cart.deleteCartSessionProduct');
 Route::post('cart/{id}/updateSessionProduct', [CartController::class, 'updateSessionProduct'])->name('cart.updateSessionProduct');
 
+
 Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
+
 
 Route::get('delivery', [DeliveryController::class, 'create'])->name('delivery.create');
 Route::post('delivery/store', [DeliveryController::class, 'store'])->name('delivery.store');

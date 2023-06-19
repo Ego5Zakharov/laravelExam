@@ -56,4 +56,14 @@ class Product extends Model
         $product->quantity = $new_quantity;
         $product->save();
     }
+
+    public static function setAverageRating($productId)
+    {
+        $product = Product::query()->find($productId);
+        if ($product) {
+            $average = $product->feedbacks()->average('rating');
+            $product->average_rating = $average;
+            $product->save();
+        }
+    }
 }
