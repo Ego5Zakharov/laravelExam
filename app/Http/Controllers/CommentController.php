@@ -70,22 +70,44 @@ class CommentController extends Controller
         }
 
         $user = Auth::user();
-        $userFeedback = $this->getUserFeedback($feedbackId, $user->id);
+
+        $userFeedback = UserFeedback::query()
+            ->where('feedback_id', $feedback->id)
+            ->where('user_id', $user->id)
+            ->first();
 
         if ($userFeedback) {
             if ($userFeedback->like === 1) {
+                // Лайк уже был поставлен, ничего не меняем
                 return response()->json(['message' => 'Лайк уже поставлен', 'like_count' => $feedback->like, 'dislike_count' => $feedback->dislike]);
             } elseif ($userFeedback->dislike === 1) {
-                $this->switchFeedback($userFeedback, $feedback, 1, 0);
+                // Был поставлен дизлайк, переключаем на лайк
+                $userFeedback->like = 1;
+                $userFeedback->dislike = 0;
+                $userFeedback->save();
+                $feedback->like++;
+                $feedback->dislike--;
                 $message = 'Вы изменили свой голос с дизлайка на лайк';
             }
         } else {
-            $userDislike = $this->getUserDislike($feedbackId, $user->id);
+            // Новый лайк
+            $userDislike = UserFeedback::query()
+                ->where('feedback_id', $feedback->id)
+                ->where('user_id', $user->id)
+                ->where('dislike', 1)
+                ->first();
+
             if ($userDislike) {
+                // Уже был поставлен дизлайк, ничего не меняем
                 return response()->json(['message' => 'Дизлайк уже поставлен', 'like_count' => $feedback->like, 'dislike_count' => $feedback->dislike]);
             }
 
-            $this->createUserFeedback($user->id, $feedbackId, 1, 0);
+            UserFeedback::query()->create([
+                'user_id' => $user->id,
+                'feedback_id' => $feedbackId,
+                'like' => 1,
+                'dislike' => 0
+            ]);
             $feedback->like++;
             $message = 'Лайк успешно поставлен';
         }
@@ -111,22 +133,44 @@ class CommentController extends Controller
         }
 
         $user = Auth::user();
-        $userFeedback = $this->getUserFeedback($feedbackId, $user->id);
+
+        $userFeedback = UserFeedback::query()
+            ->where('feedback_id', $feedback->id)
+            ->where('user_id', $user->id)
+            ->first();
 
         if ($userFeedback) {
             if ($userFeedback->dislike === 1) {
+                // Дизлайк уже был поставлен, ничего не меняем
                 return response()->json(['message' => 'Дизлайк уже поставлен', 'dislike_count' => $feedback->dislike, 'like_count' => $feedback->like]);
             } elseif ($userFeedback->like === 1) {
-                $this->switchFeedback($userFeedback, $feedback, 0, 1);
+                // Был поставлен лайк, переключаем на дизлайк
+                $userFeedback->like = 0;
+                $userFeedback->dislike = 1;
+                $userFeedback->save();
+                $feedback->like--;
+                $feedback->dislike++;
                 $message = 'Вы изменили свой голос с лайка на дизлайк';
             }
         } else {
-            $userLike = $this->getUserLike($feedbackId, $user->id);
+            // Новый дизлайк
+            $userLike = UserFeedback::query()
+                ->where('feedback_id', $feedback->id)
+                ->where('user_id', $user->id)
+                ->where('like', 1)
+                ->first();
+
             if ($userLike) {
+                // Уже был поставлен лайк, ничего не меняем
                 return response()->json(['message' => 'Лайк уже поставлен', 'dislike_count' => $feedback->dislike, 'like_count' => $feedback->like]);
             }
 
-            $this->createUserFeedback($user->id, $feedbackId, 0, 1);
+            UserFeedback::query()->create([
+                'user_id' => $user->id,
+                'feedback_id' => $feedbackId,
+                'like' => 0,
+                'dislike' => 1
+            ]);
             $feedback->dislike++;
             $message = 'Дизлайк успешно поставлен';
         }
@@ -136,53 +180,4 @@ class CommentController extends Controller
         return response()->json(['message' => $message, 'dislike_count' => $feedback->dislike, 'like_count' => $feedback->like]);
     }
 
-    private function createFeedback(CreateFeedbackData $data, $productId)
-    {
-        (new CreateFeedbackAction)->run($data, $productId);
-    }
-
-    private function getUserFeedback($feedbackId, $userId)
-    {
-        return UserFeedback::query()
-            ->where('feedback_id', $feedbackId)
-            ->where('user_id', $userId)
-            ->first();
-    }
-
-    private function switchFeedback($userFeedback, $feedback, $likeValue, $dislikeValue)
-    {
-        $userFeedback->like = $likeValue;
-        $userFeedback->dislike = $dislikeValue;
-        $userFeedback->save();
-        $feedback->like += $likeValue;
-        $feedback->dislike += $dislikeValue;
-    }
-
-    private function getUserDislike($feedbackId, $userId)
-    {
-        return UserFeedback::query()
-            ->where('feedback_id', $feedbackId)
-            ->where('user_id', $userId)
-            ->where('dislike', 1)
-            ->first();
-    }
-
-    private function createUserFeedback($userId, $feedbackId, $likeValue, $dislikeValue)
-    {
-        UserFeedback::query()->create([
-            'user_id' => $userId,
-            'feedback_id' => $feedbackId,
-            'like' => $likeValue,
-            'dislike' => $dislikeValue
-        ]);
-    }
-
-    private function getUserLike($feedbackId, $userId)
-    {
-        return UserFeedback::query()
-            ->where('feedback_id', $feedbackId)
-            ->where('user_id', $userId)
-            ->where('like', 1)
-            ->first();
-    }
 }
