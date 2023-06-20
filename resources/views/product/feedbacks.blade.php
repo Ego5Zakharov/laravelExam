@@ -38,11 +38,12 @@
                         <div id="feedback-{{ $feedback->id }}">{{ substr($feedback->comment, 0, 100) }}...</div>
                         <div>
                             <a class="readMore text-decoration-none" href="#"
-                               onclick="showFullComment({{$feedback->id}})">
+                               onclick="showFullComment('{{ $feedback->comment }}', {{ $feedback->id }})">
                                 Показать комментарий полностью
                             </a>
                             <a class="collapseText text-decoration-none" href="#"
-                               onclick="hideComment({{$feedback->id}})" style="display: none">
+                               onclick="hideComment('{{ $feedback->comment }}', {{ $feedback->id }})"
+                               style="display: none">
                                 Скрыть комментарий
                             </a>
                         </div>
@@ -50,13 +51,12 @@
                         <div>{{ $feedback->comment }}</div>
                     @endif
                 </div>
-                <div class="mt-3 d-flex justify-content-end">
+                <div class="d-flex justify-content-end mt-2">
                     <div class="me-5">
-                        <form action="{{ route('feedback.like', $feedback->id) }}" method="POST"
-                              class="like-form">
+                        <form action="{{ route('feedback.like', $feedback->id) }}" method="POST" class="like-form">
                             @csrf
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="me-5 mt-2">Отзыв полезен?</div>
+                            <div class="d-flex align-items-center">
+                                <div class="me-2">Отзыв полезен?</div>
                                 <x-button type="button" class="like-btn">
                                     <img width="25" height="25"
                                          src="https://img.icons8.com/ios/50/000000/facebook-like--v1.png"
@@ -68,9 +68,10 @@
                     </div>
 
                     <div class="me-4">
-                        <form action="{{route('feedback.dislike',$feedback->id)}}" method="POST" class="dislike-form">
+                        <form action="{{ route('feedback.dislike', $feedback->id) }}" method="POST"
+                              class="dislike-form">
                             @csrf
-                            <div class="d-flex align-items-center justify-content-center">
+                            <div class="d-flex align-items-center">
                                 <x-button type="button" class="dislike-btn">
                                     <img width="25" height="25"
                                          src="https://img.icons8.com/external-jumpicon-line-ayub-irawan/32/external-dislike-basic-ui-jumpicon-line-jumpicon-line-ayub-irawan.png"
@@ -81,32 +82,33 @@
                         </form>
                     </div>
                 </div>
+
             </div>
         @endforeach
     @endif
 </div>
 
 <script>
-    function showFullComment(feedbackId) {
+    function showFullComment(comment, feedbackId) {
         const feedback = document.getElementById('feedback-' + feedbackId);
         const readMore = document.querySelector('.readMore');
         const collapseText = document.querySelector('.collapseText');
 
         if (feedback) {
-            feedback.textContent = "{{ $feedback->comment }}";
+            feedback.textContent = comment;
             readMore.style.display = 'none';
             collapseText.style.display = 'inline';
         }
         event.preventDefault();
     }
 
-    function hideComment(feedbackId) {
+    function hideComment(comment, feedbackId) {
         const feedback = document.getElementById('feedback-' + feedbackId);
         const readMore = document.querySelector('.readMore');
         const collapseText = document.querySelector('.collapseText');
 
         if (feedback) {
-            feedback.textContent = "{{ substr($feedback->comment, 0, 100) }}...";
+            feedback.textContent = comment.slice(0, 100) + '...';
             readMore.style.display = 'inline';
             collapseText.style.display = 'none';
         }
