@@ -1,18 +1,20 @@
 @extends('layouts.base')
 
 @section('content')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+          integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <x-container>
 
         <div class="row border mb-4">
             <div class="col-md-6">
                 <div
-                    class="text-center fw-bolder h2">{{(new \App\Support\Values\Number)->add($product->average_rating,2 ?? 0)??0 }}</div>
+                    class="text-center fw-bolder h2">{{ (new \App\Support\Values\Number)->add($product->average_rating ?? 0, 2) ?? 0 }}</div>
                 <div class="text-center fw-bolder h2">{{$product->title}}</div>
                 @if($images->count()>0)
                     <div class="mb-4">
                         <img id="main-image" src="{{ Storage::url($product->images[0]->imagePath) }}"
-                             class="img-fluid img-thumbnail"
-                             alt="Main Image">
+                             class="img-fluid img-thumbnail" alt="Main Image">
                     </div>
                 @else
                     <div class="d-flex justify-content-center align-items-center" style="height: 200px">
@@ -66,8 +68,7 @@
                                 <div class="p-1">
                                     <label class="form-check">
                                         <img src="{{ Storage::url($image->imagePath) }}" class="img-thumbnail"
-                                             style="width: 100%; max-width: 100%"
-                                             alt="Main Image"
+                                             style="width: 100%; max-width: 100%" alt="Main Image"
                                              onclick="changeMainImage('{{ Storage::url($image->imagePath) }}')">
                                     </label>
                                 </div>
@@ -78,133 +79,90 @@
             </div>
         @endif
 
-        <div class="row">
-            <div class="col-6 border shadow bg-light"><p class="display-5">Отзывы</p></div>
-            <div class="col-6 border shadow bg-light">
-                <x-button type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#feedbackModal">
-                    <p class="display-5">
-                        Оставить отзыв
-                    </p>
-                </x-button>
-            </div>
-
-            @if($feedbacks->count() === 0)
-                <div class="col-12 border">
-                    <h3 class="display-7 pt-3">
-                        Пока отзывов нет.
-                        Будьте первыми, поделитесь своим опытом использования товара.
-                    </h3>
-                </div>
-            @else
-                @foreach($feedbacks as $feedback)
-                    <div class="col-12 border">
-
-                        <div class="d-flex">
-                            <div class="display-7 h6">
-                                {{$feedback->user->name}}
-                            </div>
-
-                            <div class="ps-3 h6 opacity-50">
-                                {{ \Carbon\Carbon::createFromDate($feedback->created_at)->format('d.m.Y') }}
-                            </div>
-
-                        </div>
-                        <div>
-                            @for($i = 1; $i <= $feedback->rating ; $i++)
-                                <img class="mb-1" width="15" height="15"
-                                     src="https://img.icons8.com/fluency/48/star.png" alt="star"/>
-                            @endfor
-                        </div>
-
-                        <div class="d-flex flex-column">
-                            @if(strlen($feedback->comment) > 100)
-                                <div id="feedback-{{ $feedback->id }}">{{ substr($feedback->comment, 0, 100) }}...</div>
-
-                                <div>
-                                    <a class="readMore text-decoration-none" href="#"
-                                       onclick="showFullComment({{$feedback->id}})">
-                                        Показать комментарий полностью
-                                    </a>
-                                    <a class="collapseText text-decoration-none" href="#"
-                                       onclick="hideComment({{$feedback->id}})"
-                                       style="display: none">
-                                        Скрыть комментарий
-                                    </a>
-                                </div>
-
-                            @else
-                                <div>{{ $feedback->comment }}</div>
-                            @endif
-                        </div>
-
-                        <div class="mt-3 d-flex justify-content-end">
-
-                            <div class="me-5 mt-1">Отзыв полезен?</div>
-
-                            <div class="me-5">
-                                <x-form action="{{route('feedback.like',$feedback->id)}}" method="POST">
-                                    @csrf
-                                    <div class=" d-flex justify-content-center align-items-center">
-                                        <x-button type="submit">
-                                            <img width="25" height="25"
-                                                 src="https://img.icons8.com/ios/50/000000/facebook-like--v1.png"
-                                                 alt="facebook-like--v1"/>
-                                        </x-button>
-                                        <div>{{$feedback->like}}</div>
-                                    </div>
-                                </x-form>
-                            </div>
-
-                            <div class="me-4">
-
-                                    <x-form action="{{route('feedback.dislike',$feedback->id)}}" method="POST">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                        @csrf
-                                        <x-button type="submit">
-                                            <img width="25" height="25"
-                                                 src="https://img.icons8.com/external-jumpicon-line-ayub-irawan/32/external-dislike-basic-ui-jumpicon-line-jumpicon-line-ayub-irawan.png"
-                                                 alt="external-dislike-basic-ui-jumpicon-line-jumpicon-line-ayub-irawan"/>
-                                        </x-button>
-                                        <div>{{$feedback->dislike}}</div>
-
-                                    </x-form>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                @endforeach
-            @endif
-        </div>
+        @include('product.feedbacks')
 
     </x-container>
     @include('product.modals.feedback')
-
 @endsection
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
 <script>
-    function showFullComment(feedbackId) {
-        const feedback = document.getElementById('feedback-' + feedbackId);
+    $(document).ready(function () {
+        $('.like-btn').click(function () {
+            const button = $(this);
+            const form = button.closest('.like-form');
+            const url = form.attr('action');
 
-        const readMore = document.querySelector('.readMore');
-        const collapseText = document.querySelector('.collapseText');
+            if (!button.hasClass('disabled')) {
+                button.addClass('disabled');
+                const dislikeButton = form.find('.dislike-btn');
+                dislikeButton.addClass('disabled');
 
-        if (feedback) {
-            feedback.textContent = "{{$feedback->comment}}";
-            readMore.style.display = 'none';
-            collapseText.style.display = 'inline';
-        }
-    }
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: form.serialize(),
+                    success: function (response) {
+                        const likeCount = response.like_count;
+                        const dislikeCount = response.dislike_count;
+                        const message = response.message;
 
-    function hideComment(feedbackId) {
-        const feedback = document.getElementById('feedback-' + feedbackId);
-        const readMore = document.querySelector('.readMore');
-        const collapseText = document.querySelector('.collapseText');
+                        if (message === "Лайк уже поставлен") {
+                            toastr.warning(message);
+                            return;
+                        } else {
+                            toastr.success(message);
+                        }
 
-        if (feedback) {
-            feedback.textContent = "{{substr($feedback->comment,0,100)}}...";
-            readMore.style.display = 'inline';
-            collapseText.style.display = 'none';
-        }
-    }
+                        form.find('.like-count').text(likeCount);
+                        form.find('.dislike-count').text(dislikeCount);
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибки, если необходимо
+                    }
+                });
+            }
+        });
+
+        $('.dislike-btn').click(function () {
+            const button = $(this);
+            const form = button.closest('.dislike-form');
+            const url = form.attr('action');
+
+            if (!button.hasClass('disabled')) {
+                button.addClass('disabled');
+                const likeButton = form.find('.like-btn');
+                likeButton.addClass('disabled');
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: form.serialize(),
+                    success: function (response) {
+                        const likeCount = response.like_count;
+                        const dislikeCount = response.dislike_count;
+                        const message = response.message;
+
+                        if (message === "Дизлайк уже поставлен") {
+                            toastr.warning(message);
+                            return;
+                        } else {
+                            toastr.success(message);
+                        }
+
+                        form.find('.like-count').text(likeCount);
+                        form.find('.dislike-count').text(dislikeCount);
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибки, если необходимо
+                    }
+                });
+            }
+        });
+    });
 </script>

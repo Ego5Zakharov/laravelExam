@@ -28,11 +28,11 @@ Route::get('search', [SearchController::class, 'index'])->name('search.index');
 // работа с продуктом
 Route::get('product/{productId}/show', [ProductController::class, 'show'])->name('product.show');
 
-
 // работа с комментариями
 Route::post('feedbacks/{productId}', [CommentController::class, 'store'])->name('feedback.store');
-Route::post('feedbacks/{feedbackId}/like', [CommentController::class, 'like'])->name('feedback.like');
-Route::post('feedbacks/{feedbackId}/dislike', [CommentController::class, 'dislike'])->name('feedback.dislike');
+Route::post('/feedback/like/{feedbackId}', [CommentController::class, 'like'])->name('feedback.like');
+Route::post('/feedback/dislike/{feedbackId}', [CommentController::class, 'dislike'])->name('feedback.dislike');
+//Route::post('feedback/{feedbackId}/{action}', [CommentController::class, 'likeOrDislike'])->name('feedback.likeOrDislike');
 
 
 // работа с корзиной

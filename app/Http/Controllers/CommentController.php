@@ -10,11 +10,9 @@ use App\Models\Product;
 use App\Models\UserFeedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use MongoDB\Driver\Query;
 
 class CommentController extends Controller
 {
-
     public function store($productId, FeedbackRequest $request)
     {
         if (!Auth::check()) {
@@ -55,6 +53,7 @@ class CommentController extends Controller
 
             return redirect()->back();
         }
+
         flash('Перед комментированием необходимо приобрести выбранный товар', 'primary');
         return redirect()->back();
     }
@@ -62,101 +61,128 @@ class CommentController extends Controller
     public function like($feedbackId)
     {
         if (!Auth::check()) {
-            flash('Для этого действия нужно войти в аккаунт', 'primary');
-            return redirect()->route('login');
+            return response()->json(['message' => 'Для этого действия нужно войти в аккаунт'], 401);
         }
 
         $feedback = Feedback::query()->find($feedbackId);
         if (!$feedback) {
-            flash('Отзыв не найден', 'danger');
-            return redirect()->back();
+            return response()->json(['message' => 'Отзыв не найден'], 404);
         }
 
         $user = Auth::user();
-
-        $userFeedback = UserFeedback::query()
-            ->where('feedback_id', $feedback->id)
-            ->where('user_id', $user->id)
-            ->first();
+        $userFeedback = $this->getUserFeedback($feedbackId, $user->id);
 
         if ($userFeedback) {
             if ($userFeedback->like === 1) {
-                // Удаление лайка
-                $userFeedback->delete();
-                $feedback->like--;
-            } else {
-                // Обновление лайка
-                $userFeedback->like = 1;
-                $userFeedback->dislike = 0;
-                $userFeedback->save();
-                $feedback->like++;
-                $feedback->dislike--;
+                return response()->json(['message' => 'Лайк уже поставлен', 'like_count' => $feedback->like, 'dislike_count' => $feedback->dislike]);
+            } elseif ($userFeedback->dislike === 1) {
+                $this->switchFeedback($userFeedback, $feedback, 1, 0);
+                $message = 'Вы изменили свой голос с дизлайка на лайк';
             }
         } else {
-            // Создание нового лайка
-            UserFeedback::query()->create([
-                'user_id' => $user->id,
-                'feedback_id' => $feedbackId,
-                'like' => 1,
-                'dislike' => 0
-            ]);
+            $userDislike = $this->getUserDislike($feedbackId, $user->id);
+            if ($userDislike) {
+                return response()->json(['message' => 'Дизлайк уже поставлен', 'like_count' => $feedback->like, 'dislike_count' => $feedback->dislike]);
+            }
+
+            $this->createUserFeedback($user->id, $feedbackId, 1, 0);
             $feedback->like++;
+            $message = 'Лайк успешно поставлен';
         }
 
         $feedback->save();
 
-        flash('Спасибо за вклад в сообщество!', 'success');
-        return redirect()->back();
+        return response()->json([
+            'like_count' => $feedback->like,
+            'dislike_count' => $feedback->dislike,
+            'message' => $message
+        ]);
     }
 
     public function dislike($feedbackId)
     {
         if (!Auth::check()) {
-            flash('Для этого действия нужно войти в аккаунт', 'primary');
-            return redirect()->route('login');
+            return response()->json(['message' => 'Для этого действия нужно войти в аккаунт'], 401);
         }
 
         $feedback = Feedback::query()->find($feedbackId);
         if (!$feedback) {
-            flash('Отзыв не найден', 'danger');
-            return redirect()->back();
+            return response()->json(['message' => 'Отзыв не найден'], 404);
         }
 
         $user = Auth::user();
-
-        $userFeedback = UserFeedback::query()
-            ->where('feedback_id', $feedback->id)
-            ->where('user_id', $user->id)
-            ->first();
+        $userFeedback = $this->getUserFeedback($feedbackId, $user->id);
 
         if ($userFeedback) {
             if ($userFeedback->dislike === 1) {
-                // Удаление дизлайка
-                $userFeedback->delete();
-                $feedback->dislike--;
-            } else {
-                // Обновление дизлайка
-                $userFeedback->like = 0;
-                $userFeedback->dislike = 1;
-                $userFeedback->save();
-                $feedback->like--;
-                $feedback->dislike++;
+                return response()->json(['message' => 'Дизлайк уже поставлен', 'dislike_count' => $feedback->dislike, 'like_count' => $feedback->like]);
+            } elseif ($userFeedback->like === 1) {
+                $this->switchFeedback($userFeedback, $feedback, 0, 1);
+                $message = 'Вы изменили свой голос с лайка на дизлайк';
             }
         } else {
-            // Создание нового дизлайка
-            UserFeedback::query()->create([
-                'user_id' => $user->id,
-                'feedback_id' => $feedbackId,
-                'like' => 0,
-                'dislike' => 1
-            ]);
+            $userLike = $this->getUserLike($feedbackId, $user->id);
+            if ($userLike) {
+                return response()->json(['message' => 'Лайк уже поставлен', 'dislike_count' => $feedback->dislike, 'like_count' => $feedback->like]);
+            }
+
+            $this->createUserFeedback($user->id, $feedbackId, 0, 1);
             $feedback->dislike++;
+            $message = 'Дизлайк успешно поставлен';
         }
 
         $feedback->save();
 
-        flash('Спасибо за вклад в сообщество!', 'success');
-        return redirect()->back();
+        return response()->json(['message' => $message, 'dislike_count' => $feedback->dislike, 'like_count' => $feedback->like]);
     }
 
+    private function createFeedback(CreateFeedbackData $data, $productId)
+    {
+        (new CreateFeedbackAction)->run($data, $productId);
+    }
+
+    private function getUserFeedback($feedbackId, $userId)
+    {
+        return UserFeedback::query()
+            ->where('feedback_id', $feedbackId)
+            ->where('user_id', $userId)
+            ->first();
+    }
+
+    private function switchFeedback($userFeedback, $feedback, $likeValue, $dislikeValue)
+    {
+        $userFeedback->like = $likeValue;
+        $userFeedback->dislike = $dislikeValue;
+        $userFeedback->save();
+        $feedback->like += $likeValue;
+        $feedback->dislike += $dislikeValue;
+    }
+
+    private function getUserDislike($feedbackId, $userId)
+    {
+        return UserFeedback::query()
+            ->where('feedback_id', $feedbackId)
+            ->where('user_id', $userId)
+            ->where('dislike', 1)
+            ->first();
+    }
+
+    private function createUserFeedback($userId, $feedbackId, $likeValue, $dislikeValue)
+    {
+        UserFeedback::query()->create([
+            'user_id' => $userId,
+            'feedback_id' => $feedbackId,
+            'like' => $likeValue,
+            'dislike' => $dislikeValue
+        ]);
+    }
+
+    private function getUserLike($feedbackId, $userId)
+    {
+        return UserFeedback::query()
+            ->where('feedback_id', $feedbackId)
+            ->where('user_id', $userId)
+            ->where('like', 1)
+            ->first();
+    }
 }

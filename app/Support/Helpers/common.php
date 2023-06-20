@@ -28,7 +28,8 @@ if (!function_exists('active_link')) {
 if (!function_exists('flash')) {
     function flash(string $message, string $type = 'success'): void
     {
-        session()->flash('flash.message',$message);
-        session()->flash('flash.type',$type);
+        session()->flash('flash.message', $message);
+        session()->flash('flash.type', $type);
     }
 }
+
