@@ -2,3 +2,10 @@
     line-height: 1.2;
     font-weight: 300
 }
+
+
+.search-panel .text-truncate {
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+}

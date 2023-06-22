@@ -18,48 +18,50 @@
                     </a>
                 </li>
 
+
                 <li class="nav-item">
-                    <a href="{{ route('search.index') }}" class="nav-link {{ active_link('search.index') }}"
-                       aria-current="page">
-                        {{ __('Поиск Товаров') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('cart.index') }}" class="nav-link {{ active_link('cart.index') }}"
-                       aria-current="page">
-                        {{ __('Корзина') }}
-                    </a>
+                    <div class="dropdown">
+                        <x-link class="btn dropdown-toggle text-start" href="#" role="button" id="dropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                           Управление
+                        </x-link>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{route('admin.users.index')}}">Пользователи</a></li>
+                            <li><a class="dropdown-item" href="{{route('admin.products.index')}}">Товары</a></li>
+                            <li><a class="dropdown-item" href="{{route('admin.categories.index')}}">Категории</a></li>
+                        </ul>
+                    </div>
                 </li>
 
             </ul>
 
-            @auth
-                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item m-2">
-                        <div class="bg-light">Здравствуйте, {{Auth::user()->name}}</div>
-                    </li>
+            <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="nav-item m-2">
+                    <div class="dropdown">
+                        <x-link class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Мой аккаунт
+                        </x-link>
 
-                    <form method="POST" action="{{ route('login.logout') }}">
-                        @csrf
-                        <button type="submit" class="nav-link btn btn-no-outline">{{ __('Выйти') }}</button>
-                    </form>
-                </ul>
-            @else
-                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a href="{{ route('register') }}" class="nav-link {{active_link('register')}}"
-                           aria-current="page">
-                            {{ __('Регистрация') }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('login') }}" class="nav-link {{active_link('login')}}"
-                           aria-current="page">
-                            {{ __('Вход') }}
-                        </a>
-                    </li>
-                </ul>
-            @endauth
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{route('user.account.index')}}">Личный кабинет</a></li>
+                            <li><a class="dropdown-item" href="{{route('cart.index')}}">Корзина товаров</a></li>
+                            <li>
+                                <x-form method="POST" action="{{ route('login.logout') }}">
+                                    @csrf
+                                    <x-button type="submit" class="ms-1 text-dark">Выйти</x-button>
+                                </x-form>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+
         </div>
     </div>
-</nav>
+</nav><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+

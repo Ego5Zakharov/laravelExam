@@ -34,19 +34,14 @@ Route::prefix('admin')->middleware(['role:admin'])->group(function () {
 
     Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories.index');
     Route::get('categories/{category}/show', [CategoryController::class, 'show'])->name('admin.categories.show');
-
-    Route::get('categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
     Route::post('categories/store', [CategoryController::class, 'store'])->name('admin.categories.store');
-
-    Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-    Route::post('categories/{category}/update', [CategoryController::class, 'update'])->name('admin.categories.update');
-
-    Route::post('categories/{id}/delete', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+    Route::post('categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::post('categories/delete', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+    Route::get('categories/pagination/paginate-data', [CategoryController::class, 'pagination'])->name('admin.categories.pagination');
+    Route::get('categories/search-category', [CategoryController::class, 'search'])->name('admin.categories.search');
 
     // Пользователи
-
     Route::get('users', [UserController::class, 'index'])->name('admin.users.index');
 
 });
-
 

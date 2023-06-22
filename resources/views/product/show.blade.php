@@ -2,7 +2,7 @@
 
 @section('content')
     <x-container>
-        <div class="row  product-body d-flex flex-column">
+        <div class="row product-body d-flex flex-column">
 
             <div class=" text-start col-10">
                 <div class="card-0">
@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 ">
+            <div class="col-md-6">
                 <div class="average_rating">
                     @if($product->average_rating == 0 || $product->average_rating == null)
                         <div class="rating d-flex">
@@ -37,7 +37,7 @@
             </div>
 
 
-            <div class="row">
+            <div class="row pt-3 ">
                 <div class="col-md-6 ">
                     <div class="image w-100 h-100 align-items-center">
                         @if($images->count()>0)
@@ -51,25 +51,47 @@
                                 <span class="text-muted">No image</span>
                             </div>
                         @endif
-                    </div>
-                </div>
 
-                <div class="col-md-4  d-flex flex-column justify-content-between">
-                    <div>
-                        <div class="row d-flex flex-column justify-content-center">
-                            <div class="col-12">
-                                <div class="ms-1 mb-3 mt-3  d-flex nowrap" style="font-size: 30px; font-weight: 700;">
-                                    {{$product->price}} ₸
-                                </div>
+                        @if($images->count()>1)
+                            <div class="d-flex flex-wrap">
+                                @foreach($product->images as $image)
+                                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <img class="img-fluid img-thumbnail shadow"
+                                             src="{{ Storage::url($image->imagePath) }}"
+                                             alt="Additional Image" style="max-height: 100px;"
+                                             onclick="changeMainImage('{{ Storage::url($image->imagePath) }}')">
+                                    </div>
+                                @endforeach
                             </div>
+                        @endif
+                    </div>
+
+                </div>
+                <div class="col-md-4  d-flex flex-column justify-content-between ">
+                    <div class="border rounded">
+                        <div class="row d-flex justify-content-center ">
+                            <div>
+                                <div class="ms-1 mb-3 mt-3  d-flex nowrap flex-column"
+                                     style="font-size: 22px; font-weight: 700;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12">Cтоимость:</div>
+                                        <div class="col-lg-6 col-md-12">{{$product->price}} ₸</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-2">
                             <div class="col-12">
                                 @if(Auth::check())
-                                    <x-form action="{{route('cart.add',$product->id)}}" method="POST">
+                                    <x-form class="d-flex justify-content-start"
+                                            action="{{route('cart.add',$product->id)}}" method="POST">
                                         @csrf
-                                        <x-button type="submit">Добавить в корзину</x-button>
+                                        <x-button class="border pe-5 ps-5 pt-3 pb-3 w-100" type="submit">Добавить в
+                                            корзину
+                                        </x-button>
                                     </x-form>
                                 @else
                                     <x-form class="d-flex justify-content-start"
@@ -83,7 +105,34 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <div class="categories">
+                                    <h3 class="display-7 fw-bold">
+                                        Категории
+                                    </h3>
+                                </div>
+                                @if($product->categories()->count() === 0)
+                                    <div class="fw-light">Категорий нет</div>
+                                @else
+                                    @foreach($product->categories as $category)
+                                        <ul class="list-group">
+                                            <li class="list-group-item">{{$category->name}}</li>
+                                        </ul>
+                                    @endforeach
+                                @endif
 
+                            </div>
+
+                            <div class="col-md-12 fw-bold h3 display-7 ">Описание</div>
+                            <div class="col-md-12">
+                                 <span class="text-wrap text-break">
+                                {{$product->description}}  {{$product->description}}  {{$product->description}}  {{$product->description}}  {{$product->description}}
+                                </span>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
 
@@ -156,26 +205,6 @@
             </div>
         </div>
 
-
-        @if($images->count()>0)
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        @foreach ($images as $key => $image)
-                            <div class="col-4 mb-3">
-                                <div class="p-1">
-                                    <label class="form-check">
-                                        <img src="{{ Storage::url($image->imagePath) }}" class="img-thumbnail"
-                                             style="width: 100%; max-width: 100%" alt="Main Image"
-                                             onclick="changeMainImage('{{ Storage::url($image->imagePath) }}')">
-                                    </label>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        @endif
 
         @include('product.feedbacks')
     </x-container>

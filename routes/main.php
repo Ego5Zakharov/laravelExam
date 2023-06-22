@@ -66,3 +66,9 @@ Route::post('/send-sms', [SmsController::class, 'sendSms'])->name('send.sms');
 
 //Route::get('transaction', [\App\Http\Controllers\TransactionController::class,
 //    '__invoke']);
+
+//Route::get('bootstrap','bootstrap.bootstrap')->name('boostrap');
+
+Route::get('bootstrap', function () {
+    return view('bootstrap.bootstrap');
+})->name('boostrap');

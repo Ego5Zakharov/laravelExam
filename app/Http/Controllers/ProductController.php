@@ -13,7 +13,8 @@ class ProductController extends Controller
         $product = Product::query()->findOrFail($id);
         $images = $product->images()->paginate(3);
         $feedbacks = $product->feedbacks()->where('visible', true)->get();
+        $categories = $product->categories();
 
-        return view('product.show', compact(['product', 'images', 'feedbacks']));
+        return view('product.show', compact(['product', 'images', 'feedbacks','categories']));
     }
 }

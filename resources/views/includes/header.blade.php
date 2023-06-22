@@ -19,13 +19,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('home') }}" class="nav-link {{ active_link('home') }}"
+                        <a href="{{ route('home') }}" class="nav-link {{ active_link('') }}"
                            aria-current="page">
                             {{ __('О нас') }}
                         </a>
                     </li>
 
-
+                    <li class="nav-item">
+                        <a href="{{ route('search.index') }}" class="nav-link {{ active_link('') }}"
+                           aria-current="page">
+                            {{ __('Поиск') }}
+                        </a>
+                    </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0">
@@ -53,3 +58,5 @@
         @include('includes.user.header')
     @endif
 @endguest
+
+

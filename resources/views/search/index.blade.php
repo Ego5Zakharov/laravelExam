@@ -1,108 +1,34 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="">
-        @include('includes.main_header')
-        <x-container>
-            <div class="row">
-                <div class="col-12">
-                    <x-form class="col-6" action="{{ route('search.index',['orderBy' => $orderBy]) }}" method="GET">
-                        <x-form-item class="d-flex">
-                            <div class="col-6">
-                                <div class="sort-options">
-                                    <input value="{{$search ?? ''}}" type="text" hidden>
-                                    <div class="sort-buttons">
-                                        <div class="sort-button">
-                                            <span>Сначала подороже</span>
-                                            <x-radio name="sort" value="desc" :checked="$orderBy === 'desc'"/>
-                                        </div>
-                                        <div class="sort-button">
-                                            <span>Сначала подешевле</span>
-                                            <x-radio name="sort" value="asc" :checked="$orderBy === 'asc'"/>
-                                        </div>
-                                    </div>
-                                </div>
+    <x-container>
+        <div class="row mb-2 border-opacity-50 border-secondary">
+            <div class="col-md-12 col-lg-6">
+                <div id="search-form">
+                    <x-form class="">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-9 mt-2">
+                                <input name="search" id="search" value="{{$search ?? ''}}" placeholder="search"
+                                       class="border border-success">
                             </div>
-                        </x-form-item>
-                        <x-button class="border" type="submit">Search</x-button>
+
+                            <div class="col-md-12 col-lg-3 mt-2">
+                                <x-button class="search-button border-success text-success" type="button">
+                                    Поиск
+                                </x-button>
+                            </div>
+                        </div>
+                        <div id="search-results">
+                            @include('search.results')
+                        </div>
                     </x-form>
                 </div>
             </div>
+        </div>
+    </x-container>
+@endsection
 
-            <div class="row">
-                @if($products->isEmpty())
-                    <div class="col-12 d-flex justify-content-center align-items-center">
-                        Продукты не найдены!
-                    </div>
-                @else
-                    @foreach($products as $product)
-                        <div class="col-md-4 col-sm-6 g-sm-4">
-                            <x-card class="card-hover">
-                                <x-card-header>
-                                    @if(count($product->images) > 0 && $product->images[0]->imagePath)
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="img-thumbnail" style="height: 350px;width:350px;"
-                                                 src="{{Storage::url($product->images[0]->imagePath)}}"
-                                                 alt="">
-                                        </div>
-                                    @else
-                                        <x-no-image>No Image</x-no-image>
-                                    @endif
-                                    <x-card-title class="text-center">
-                                        <x-link href="{{route('product.show',$product)}}">{{$product->title}}</x-link>
-                                    </x-card-title>
-                                </x-card-header>
-                                <x-card-body>
-                                    <x-card-text>{{$product->price}}</x-card-text>
-                                </x-card-body>
-                                <div class="card-buttons">
-                                    @if(Auth::check())
-                                        <x-form action="{{route('cart.add',$product->id)}}" method="POST">
-                                            @csrf
-                                            <x-button class="border" type="submit">Добавить в корзину</x-button>
-                                        </x-form>
-                                    @else
-                                        <x-form action="{{route('cart.addSession',$product->id)}}" method="POST">
-                                            @csrf
-                                            <x-button class="border" type="submit">Добавить в корзину(Session)
-                                            </x-button>
-                                        </x-form>
-                                    @endif
-                                </div>
-                            </x-card>
-                        </div>
-                    @endforeach
-            </div>
+@section('scripts')
+    <script src="{{ asset('js/searchProduct.js') }}"></script>
+@endsection
 
-            <div class="mt-2">
-                {{$products->links()}}
-            </div>
-
-
-            @endif
-
-        </x-container>
-        <style>
-            .card-hover:hover .card-buttons {
-                display: flex;
-            }
-
-            .card-buttons {
-                display: none;
-                margin-top: 10px;
-            }
-        </style>
-        @endsection
-
-        <script>
-            const sortInput = document.getElementById('sort-order');
-            const form = document.querySelector('form');
-
-            sortInput.addEventListener('change', function () {
-                const orderBy = sortInput.value;
-                const url = new URL(form.action);
-
-                url.searchParams.set('orderBy', orderBy);
-                form.action = url.toString();
-            });
-        </script>

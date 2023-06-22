@@ -9,15 +9,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::query()->get();
+        $categories = Category::query()->latest()->paginate(5);
 
         return view('admin.categories.index', compact('categories'));
+    }
+
+    public function pagination(Request $request)
+    {
+        $categories = Category::query()->latest()->paginate(5);
+        return view('admin.categories.index_pagination', compact('categories'))->render();
     }
 
     public function show($id)
@@ -26,14 +33,10 @@ class CategoryController extends Controller
         return view('admin.categories.show', compact('category'));
     }
 
-    public function create()
-    {
-        return view('admin.categories.create');
-    }
-
     public function store(CategoryRequest $request)
     {
         $path = null;
+
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -46,48 +49,65 @@ class CategoryController extends Controller
             image: $path
         );
 
-        $category = (new CreateCategoryAction)->run($data);
+        (new CreateCategoryAction)->run($data);
 
-        flash('Категория успешно создана!', 'success');
-        return redirect()->route(('admin.categories.show'), $category);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Успешное создание категории!'
+        ]);
     }
 
-    public function edit($id)
-    {
-        $category = Category::query()->findOrFail($id);
-        return view('admin.categories.edit', compact('category'));
-    }
-
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request)
     {
         $validated = $request->validated();
 
+        $category = Category::findOrFail($request->up_id); // Retrieve the category based on the given ID
+
         $path = $category->image;
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
+        if ($request->hasFile('up_image')) {
+            $file = $request->file('up_image');
             $path = $file->store('uploads', 'public');
         }
 
-        $data = (new CreateCategoryData(name: $validated['name'], image: $path));
+        $data = new CreateCategoryData(
+            name: $validated['up_name'],
+            image: $path
+        );
 
         (new UpdateCategoryAction)->run($data, $category);
 
-        flash('Категория успешно обновлена!', "success");
-        return redirect()->route('admin.categories.show', $category);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Успешное обновление категории!'
+        ]);
     }
 
-    public function delete($id)
-    {
-        $category = Category::query()->findOrFail($id);
 
-        if ($category->delete()) {
-            flash('Категория успешно удалена!', 'success');
-            return redirect()->route('admin.categories.index');
-        } else {
-            flash('Ошибка при удалении категории.', 'error');
-            return back();
+    public function delete(Request $request)
+    {
+        try {
+            $category = Category::query()->findOrFail($request->category_id);
+            $category->delete();
+
+            return response()->json(['status' => 'success', 'message' => 'Категория успешно удалена!']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Ошибка при удалении категории!']);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $categories = Category::query()
+            ->where('name', 'like', '%' . $request->search_string . '%')
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+        if ($categories->count() >= 1) {
+            return view('admin.categories.index_pagination', compact('categories'))->render();
+        }
+        return response()->json([
+            'status'=>'nothing_found'
+        ]);
     }
 }
 
