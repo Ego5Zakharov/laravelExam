@@ -24,6 +24,12 @@ Route::post('login/store', [LoginController::class, 'store'])->name('login.store
 Route::post('login/logout', [LoginController::class, 'logout'])->name('login.logout');
 
 Route::get('search', [SearchController::class, 'index'])->name('search.index');
+Route::get('search/pagination/paginate-data',[SearchController::class,'pagination'])->name('search.pagination');
+Route::get('search/search-product', [SearchController::class, 'search'])->name('search.search');
+Route::get('search/sortByAsc', [SearchController::class, 'sortByAsc'])->name('search.sortByAsc');
+Route::get('search/sortByDesc', [SearchController::class, 'sortByDesc'])->name('search.sortByDesc');
+
+
 
 // работа с продуктом
 Route::get('product/{productId}/show', [ProductController::class, 'show'])->name('product.show');

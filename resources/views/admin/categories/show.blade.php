@@ -18,10 +18,6 @@
             </div>
 
             <div >
-                <x-link class="btn btn-success mb-1" href="{{ route('admin.categories.edit', $category->id) }}">
-                    <i class="las la-edit"></i> Редактировать
-                </x-link>
-
                 <x-form action="{{ route('admin.categories.delete', $category->id) }}" method="POST" class="col-12">
                     @csrf
                     <button type="submit" class="btn btn-danger">

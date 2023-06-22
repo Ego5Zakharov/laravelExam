@@ -23,7 +23,7 @@
                             <x-table.col>{{ $category->id }}</x-table.col>
 
                             <x-table.col>
-                                <x-link href="{{ route('admin.categories.show', $category) }}">
+                                <x-link class="show-category" data-id="{{$category->id}}" href="#">
                                     {{ $category->name }}
                                 </x-link>
                             </x-table.col>
@@ -39,7 +39,7 @@
                                 @endif
                             </x-table.col>
 
-                            <x-table.col class="text-center">
+                            <x-table.col class="text-center mb-2 ">
                                 <x-link
                                     class="delete_category"
                                     data-id="{{$category->id}}">

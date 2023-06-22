@@ -61,7 +61,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        $category = Category::findOrFail($request->up_id); // Retrieve the category based on the given ID
+        $category = Category::findOrFail($request->up_id);
 
         $path = $category->image;
 
@@ -106,7 +106,7 @@ class CategoryController extends Controller
             return view('admin.categories.index_pagination', compact('categories'))->render();
         }
         return response()->json([
-            'status'=>'nothing_found'
+            'status' => 'nothing_found'
         ]);
     }
 }
