@@ -1,33 +1,46 @@
-@extends('layouts.base')
+{{--@extends('layouts.base')--}}
 
+    <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+{{--header--}}
+<header class="px-2 border-b">
+    <a class="px-2 uppercase font-bold text-purple-800" href="#">Egor</a>
+    <nav>
+        <ul class="text-gray-300 font-semibold">
+            <li><a class="inline-block py-3 px-2" href="">Home</a></li>
+            <li><a class="inline-block py-3 px-2" href="">About</a></li>
+            <li><a class="inline-block py-3 px-2" href="">Contact</a></li>
+        </ul>
+    </nav>
+</header>
 
-@section('content')
-
-    @include('includes.main_header')
-
-    <x-container>
-        <div class="">Мой контент 1</div>
-        <div class="">Мой контент 2</div>
-        <div class="">Мой контент 3</div>
-
-        <div class="row d-flex justify-content-center mt-5 align-items-center">
-            <div class="col-6">
-                <h1 class="display-5">Отправка сообщений</h1>
-                <x-form class="border text-center" action="{{route('send.sms')}}" method="POST">
-                    @csrf
-                    <x-form-item>
-                        <x-input name="to" placeholder="Номер Телефона"></x-input>
-                    </x-form-item>
-
-                    <x-form-item>
-                        <x-input name="message" type="text" placeholder="Сообщение"></x-input>
-                    </x-form-item>
-
-                    <x-button class="border" type="submit">Отправить сообщение</x-button>
-                </x-form>
-            </div>
+{{--  breadcrumbs--}}
+<main>
+    <div>
+        <div class="py-4 overflow-y-auto whitespace-nowrap">
+            <a class="text-gray-600" href="#">Home</a>
+            <span class="mx-2 text-gray-500">&gt;</span>
+            <a href="#">News</a>
+            <span class="mx-2 text-gray-500">&gt;</span>
+            <a href="#">Tech</a>
         </div>
+    </div>
+    <footer></footer>
+</main>
 
-    </x-container>
-@endsection
+</body>
+{{--@section('content')--}}
+{{--    <x-container>--}}
+
+{{--    </x-container>--}}
+{{--@endsection--}}
 

@@ -12,18 +12,18 @@
         paginate(page);
     });
 
-    function paginate(page) {
-        $.ajax({
-            url: "/search/pagination/paginate-data?page=" + page,
-            success: function (response) {
-                $('.search-data').html(response);
-                console.log('Clicked page: ' + page);
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
+    // function paginate(page) {
+    //     $.ajax({
+    //         url: "/search/pagination/paginate-data?page=" + page,
+    //         success: function (response) {
+    //             $('.search-data').html(response);
+    //             console.log('Clicked page: ' + page);
+    //         },
+    //         error: function (xhr) {
+    //             console.log(xhr.responseText);
+    //         }
+    //     });
+    // }
 
     $(document).ready(function () {
         $(document).on('click', '#search-button', function (e) {
