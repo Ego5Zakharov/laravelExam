@@ -18,6 +18,7 @@ use App\Support\Values\FileUploader;
 use App\Support\Values\Number;
 use Faker\Core\File;
 use http\Client\Curl\User;
+use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -28,9 +29,15 @@ class ProductController extends Controller
     public function index()
     {
         // asc,desc
-        $products = Product::query()->latest('id', 'desc')->paginate(12);
+        $products = Product::query()->latest()->paginate(5);
+        $categories = Category::query()->get();
+        return view('admin.products.index', compact('products', 'categories'));
+    }
 
-        return view('admin.products.index', compact('products'));
+    public function pagination()
+    {
+        $products = Product::query()->latest()->paginate(5);
+        return view('admin.products.index_pagination', compact('products'));
     }
 
     public function create()
@@ -60,13 +67,18 @@ class ProductController extends Controller
             $categories = $request->input('categories', []);
             $product->categories()->attach($categories);
 
-            flash('Продукт успешно создан!', 'success');
-            return redirect()->route('admin.products.index');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Успешное создание товара!'
+            ]);
+
         } catch (\Exception $e) {
             Log::error($e->getMessage());
 
-            flash('Произошла ошибка при создании продукта.', 'danger');
-            return redirect()->back()->withInput();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ошибка!'
+            ]);
         }
     }
 
@@ -79,31 +91,43 @@ class ProductController extends Controller
         return view('admin.products.show', compact(['product', 'images', 'categories']));
     }
 
-    public function update(UpdateProductRequest $request, Product $product, FileUploader $fileUploader)
+    public function update(UpdateProductRequest $request, FileUploader $fileUploader)
     {
-        $validated = $request->validated();
+        try {
+            $product = Product::query()->find($request->productId);
 
-        $imagesPaths = (new UploadProductImagesAction)->run($request, $fileUploader);
+            $validated = $request->validated();
 
-        $data = (new CreateProductData(
-            title: $validated['title'],
-            description: $validated['description'],
-            price: new Number($validated['price']),
-            quantity: $validated['quantity'],
-            published: $validated['published'] ?? false
-        ));
+            $imagesPaths = (new UploadProductImagesAction)->run($request, $fileUploader);
 
-        $existingCategoriesIds = $product->categories->pluck('id')->toArray();
+            $data = (new CreateProductData(
+                title: $validated['title'],
+                description: $validated['description'],
+                price: new Number($validated['price']),
+                quantity: $validated['quantity'],
+                published: $validated['published'] ?? false
+            ));
 
-        $categories = array_diff($request->input('categories', []), $existingCategoriesIds);
+            $existingCategoriesIds = $product->categories->pluck('id')->toArray();
 
-        $product->categories()->attach($categories);
+            $categories = array_diff($request->input('categories', []), $existingCategoriesIds);
 
-        (new UpdateProductAction())->run($data, $product, $imagesPaths);
+            $product->categories()->attach($categories);
 
+            (new UpdateProductAction())->run($data, $product, $imagesPaths);
 
-        flash('Продукт успешно обновлен!', 'success');
-        return redirect()->route('admin.products.show', $product);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Успешное обновление товара!'
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ошибка!'
+            ]);
+        }
     }
 
     public function edit($id)
@@ -115,22 +139,25 @@ class ProductController extends Controller
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $product = Product::query()->findOrFail($id);
+        try {
+            $product = Product::query()->findOrFail($request->productId);
 
-        if ($product->images->count() > 0) {
-            foreach ($product->images as $image) {
-                Storage::delete($image->imagePath);
-                $image->delete();
+            if ($product->images->count() > 0) {
+                foreach ($product->images as $image) {
+                    Storage::delete($image->imagePath);
+                    $image->delete();
+                }
             }
+
+            $product->categories()->detach();
+            $product->delete();
+
+            return response()->json(['status' => 'success', 'message' => 'Товар успешно удален!']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Ошибка удаления товара!']);
         }
-        $product->categories()->detach();
-
-        $product->delete();
-
-        flash('Продукт успешно удален!', 'success');
-        return redirect()->route('admin.products.index');
     }
 
     public function categoryDelete($productId, $categoryId)

@@ -6,7 +6,7 @@
 
         <x-breadcrumb back="admin.products.index" current="ProductCreate"></x-breadcrumb>
 
-        <x-form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
+        <x-form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data" method="POST">
             @csrf
 
             <x-form-item>
@@ -42,7 +42,6 @@
                         <option value="{{$category->id}}">{{$category->name}}</option>
                     @endforeach
                 </select>
-
             </x-form-item>
 
             <x-form-item>

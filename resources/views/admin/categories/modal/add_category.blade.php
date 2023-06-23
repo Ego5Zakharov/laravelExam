@@ -10,9 +10,8 @@
                             aria-label="Закрыть"></button>
                 </div>
 
-                <div class="errorMessageContainer">
+                <div class="errorMessageContainer"></div>
 
-                </div>
                 <div class="modal-body">
                     <x-form-item>
                         <x-label class="form-label"><h3 class="display-7">Название категории</h3></x-label>

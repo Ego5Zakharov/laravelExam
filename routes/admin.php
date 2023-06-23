@@ -21,10 +21,12 @@ Route::prefix('admin')->middleware(['role:admin'])->group(function () {
     Route::post('products/store', [ProductController::class, 'store'])->name('admin.products.store');
 
     Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
-    Route::post('products/{product}/update', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::post('products/update', [ProductController::class, 'update'])->name('admin.products.update');
 
-    Route::post('products/{product}/delete', [ProductController::class, 'delete'])->name('admin.products.delete');
+    Route::post('products/delete', [ProductController::class, 'delete'])->name('admin.products.delete');
     Route::post('products/{productId}/{categoryId}', [ProductController::class, 'categoryDelete'])->name('admin.products.deleteCategory');
+
+    Route::get('products/pagination/pagination-data', [ProductController::class, 'pagination'])->name('admin.products.pagination');
 
     // Изображения Продукта
     Route::post('image/{id}', [ImageController::class, 'destroy'])->name('admin.images.destroy');
