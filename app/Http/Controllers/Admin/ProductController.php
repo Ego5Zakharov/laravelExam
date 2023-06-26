@@ -22,6 +22,7 @@ use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -87,47 +88,76 @@ class ProductController extends Controller
         $product = Product::query()->findOrFail($id);
 
         $images = $product->images()->paginate(3);
-        $categories = $product->categories()->get();
+        $categories = $product->categories;
+
         return view('admin.products.show', compact(['product', 'images', 'categories']));
     }
 
     public function update(UpdateProductRequest $request, FileUploader $fileUploader)
     {
-        try {
-            $product = Product::query()->find($request->productId);
+        $validated = $request->validated();
+        $product = Product::query()->find($request->productId);
 
-            $validated = $request->validated();
+        $imagesPaths = (new UploadProductImagesAction)->run($request, $fileUploader);
 
-            $imagesPaths = (new UploadProductImagesAction)->run($request, $fileUploader);
+        $data = (new CreateProductData(
+            title: $validated['title'],
+            description: $validated['description'],
+            price: new Number($validated['price']),
+            quantity: $validated['quantity'],
+            published: $validated['published'] ?? false
+        ));
 
-            $data = (new CreateProductData(
-                title: $validated['title'],
-                description: $validated['description'],
-                price: new Number($validated['price']),
-                quantity: $validated['quantity'],
-                published: $validated['published'] ?? false
-            ));
+        $existingCategoriesIds = $product->categories->pluck('category_id')->toArray();
 
-            $existingCategoriesIds = $product->categories->pluck('id')->toArray();
-
-            $categories = array_diff($request->input('categories', []), $existingCategoriesIds);
-
-            $product->categories()->attach($categories);
-
-            (new UpdateProductAction())->run($data, $product, $imagesPaths);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Успешное обновление товара!'
-            ]);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Ошибка!'
-            ]);
+        $categories = $request->input('categories', []);
+        if (!is_array($categories)) {
+            $categories = [];
         }
+
+        $categoriesToAttach = array_diff($categories, $existingCategoriesIds);
+
+        $product->categories()->attach($categoriesToAttach);
+
+        (new UpdateProductAction())->run($data, $product, $imagesPaths);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Успешное обновление товара!'
+        ]);
+    }
+
+
+    public function updatePOST(UpdateProductRequest $request, FileUploader $fileUploader)
+    {
+
+        $validated = $request->validated();
+        $product = Product::query()->find($request->productId);
+
+        $imagesPaths = (new UploadProductImagesAction)->run($request, $fileUploader);
+
+        $data = (new CreateProductData(
+            title: $validated['title'],
+            description: $validated['description'],
+            price: new Number($validated['price']),
+            quantity: $validated['quantity'],
+            published: $validated['published'] ?? false
+        ));
+
+        $existingCategoriesIds = $product->categories->pluck('category_id')->toArray();
+
+        $categories = $request->input('categories', []);
+        if (!is_array($categories)) {
+            $categories = [];
+        }
+
+        $categoriesToAttach = array_diff($categories, $existingCategoriesIds);
+
+        $product->categories()->attach($categoriesToAttach);
+
+        (new UpdateProductAction())->run($data, $product, $imagesPaths);
+
+        return redirect()->route('admin.products.index');
     }
 
     public function edit($id)
@@ -160,18 +190,41 @@ class ProductController extends Controller
         }
     }
 
-    public function categoryDelete($productId, $categoryId)
+    public function imageDelete(Request $request)
     {
-        $product = Product::query()->findOrFail($productId);
+        $product = Product::query()->findOrFail($request->productId);
 
-        $category = $product->categories->firstWhere('id', $categoryId);
+        $image = $product->images->firstWhere('id', $request->imageId);
+        if ($image) {
+            Storage::delete($image->imagePath);
+            $image->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Успешное удаление картинки!'
+            ]);
+        }
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Ошибка удаления!'
+        ]);
+    }
+
+    public function categoryDelete(Request $request)
+    {
+        $product = Product::query()->findOrFail($request->productId);
+
+        $category = $product->categories->firstWhere('id', $request->categoryId);
         if ($category) {
             $product->categories()->detach($category);
-            flash('Категория успешно удалена!', 'success');
-        } else {
-            flash('Категория не найдена!', 'danger');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Успешное удаление категории'
+            ]);
         }
-        return redirect()->back();
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Ошибка удаления!'
+        ]);
     }
 
     public function search(Request $request)

@@ -19,12 +19,15 @@ Route::prefix('admin')->middleware(['role:admin'])->group(function () {
 
     Route::get('products/create', [ProductController::class, 'create'])->name('admin.products.create');
     Route::post('products/store', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::post('products/storePost', [ProductController::class, 'storePost'])->name('admin.products.storePost');
 
     Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::post('products/update', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::post('products/updatePOST', [ProductController::class, 'updatePOST'])->name('admin.products.updatePOST');
 
     Route::post('products/delete', [ProductController::class, 'delete'])->name('admin.products.delete');
-    Route::post('products/{productId}/{categoryId}', [ProductController::class, 'categoryDelete'])->name('admin.products.deleteCategory');
+    Route::post('products/categoryDelete', [ProductController::class, 'categoryDelete'])->name('admin.products.categoryDelete');
+    Route::post('products/imageDelete', [ProductController::class, 'imageDelete'])->name('admin.products.imageDelete');
 
     Route::get('products/pagination/pagination-data', [ProductController::class, 'pagination'])->name('admin.products.pagination');
 

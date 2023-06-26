@@ -14,7 +14,9 @@ class UploadProductImagesAction
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
-                $path = $fileUploader->upload($file);
+                $directory = 'uploads/productImages/';
+                $fileName = $request->input('title') . '_' . time() . '.' . $file->getClientOriginalName() ?? time() . '.' . $file->getClientOriginalName();
+                $path = $fileUploader->uploadProduct($file, $directory, $fileName, 'public');
                 $imagePaths[] = $path;
             }
         }

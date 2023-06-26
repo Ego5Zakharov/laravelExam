@@ -36,6 +36,7 @@
                 }
             }
 
+
             $.ajax({
                 url: "{{route('admin.products.store')}}",
                 method: 'POST',
@@ -53,12 +54,23 @@
                         toastr.error(response.message);
                     }
                 },
-                error: function (er) {
-                    let error = er.responseJSON;
-                    $('.errorMessageContainer').empty();
-                    $.each(error.errors, function (index, value) {
-                        $('.errorMessageContainer').append('<div class="ms-3 text-danger">' + value + '</div>');
-                    });
+                error: function (xhr, status, error) {
+                    let errorMessage = xhr.responseJSON.message;
+                    let errors = xhr.responseJSON.errors;
+                    let errorContainer = $('.errorMessageContainer');
+                    errorContainer.empty();
+
+                    if (errorMessage) {
+                        let alert = $('<div>').addClass('alert alert-danger').text(errorMessage);
+                        errorContainer.append(alert);
+                    }
+
+                    if (errors) {
+                        $.each(errors, function (key, value) {
+                            let alert = $('<div>').addClass('alert alert-danger').text(value);
+                            errorContainer.append(alert);
+                        });
+                    }
                 }
             });
         });
@@ -107,16 +119,17 @@
             let categories = $(this).data('categories');
             let images = $(this).data('images');
 
-            $('#up_id').val(productId);
+            $('#up_productId').val(productId);
             $('#up_title').val(title);
             $('#up_price').val(price);
             $('#up_quantity').val(quantity);
             $('#up_description').val(description);
-            $('#up_published').val(published);
+            $('#up_published').prop('checked', published);
 
             if (images) {
                 let imageContainer = $('.imageContainer');
                 let isImage = $('.isImage');
+
                 isImage.addClass('fw-bold').text('Текущие картинки');
                 imageContainer.empty();
 
@@ -125,26 +138,171 @@
                     let imageURL = "{{ \Illuminate\Support\Facades\Storage::url('')}}" + imagePath;
                     let imageElement = $('<img>').attr('src', imageURL).attr('alt', 'Product Image').addClass('img img-fluid');
                     imageContainer.append(imageElement);
+                    let deleteButton = $('<button>').addClass('btn btn-danger deleteImageButton')
+                        .attr('data-product-id', productId)
+                        .attr('data-image-id', images[i].id)
+                        .text('Удалить');
+                    imageContainer.append(deleteButton);
                 }
             }
 
-            if(categories){
+            if (categories) {
                 let categoryContainer = $('.categoryContainer');
                 let isCategory = $('.isCategory');
                 isCategory.addClass('fw-bold').text('Текущие категории');
+                categoryContainer.empty();
 
-                categories.forEach(function (category){
-                    categoryContainer.append($('li')).addClass('list-group-item').text(category.name);
-                    // categoryContainer.append($('<li>').addClass('list-group-item').text(category.name));
+                categories.forEach(function (category) {
+                    let listItem = $('<li>').addClass('list-group-item').text(category.name);
+                    let deleteButton = $('<button>').addClass('btn btn-danger deleteCategoryButton')
+                        .attr('data-product-id', productId)
+                        .attr('data-category-id', category.id)
+                        .text('Удалить');
+
+                    listItem.append(deleteButton);
+                    categoryContainer.append(listItem);
+                });
+            }
+        });
+
+
+        $(document).on('click', '#updateProductButton', function (e) {
+            let up_productId = $('#up_productId').val();
+            let up_title = $('#up_title').val();
+            let up_description = $('#up_description').val();
+            let up_price = $('#up_price').val();
+            let up_quantity = $('#up_quantity').val();
+            let up_published = $('#up_published').prop('checked') ? '1' : '0';
+            let categories = $('#up_categories').val();
+
+            let images = document.getElementById('up_images').files;
+
+            let formData = new FormData();
+
+            formData.append('productId', up_productId);
+            formData.append('title', up_title);
+            formData.append('description', up_description);
+            formData.append('price', up_price);
+            formData.append('quantity', up_quantity);
+            formData.append('published', up_published);
+            formData.append('_method', 'POST');
+
+            if (images) {
+                for (let i = 0; i < images.length; i++) {
+                    formData.append('images[]', images[i]);
+                }
+            }
+            console.log(categories);
+
+            if (categories) {
+                categories.forEach(function (category) {
+                    let trimmedCategory = category.trim(); // Удаляем лишние пробелы и символы новой строки
+                    let categoryId = trimmedCategory.match(/\d+/); // Извлекаем числовое значение из строки
+                    if (categoryId) {
+                        formData.append('categories[]', categoryId[0]);
+                    }
                 });
             }
 
+            console.log(categories);
+
+            formData.getAll('categories');
+            $.ajax({
+                url: "{{ route('admin.products.update') }}",
+                data: formData,
+                method: 'POST',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status === "success") {
+                        $('.product-table').load("{{route('admin.products.index')}} .product-table");
+                        toastr.success(response.message);
+                        $('.errorMessageContainer').empty();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = xhr.responseJSON.message;
+                    let errors = xhr.responseJSON.errors;
+                    let errorContainer = $('.errorMessageContainer');
+                    errorContainer.empty();
+
+                    if (errorMessage) {
+                        let alert = $('<div>').addClass('alert alert-danger').text(errorMessage);
+                        errorContainer.append(alert);
+                    }
+
+                    if (errors) {
+                        $.each(errors, function (key, value) {
+                            let alert = $('<div>').addClass('alert alert-danger').text(value);
+                            errorContainer.append(alert);
+                        });
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.deleteCategoryButton', function (e) {
+            e.preventDefault();
+            let categoryId = $(this).data('category-id');
+            let productId = $(this).data('product-id');
+
+            $.ajax({
+                url: "{{route('admin.products.categoryDelete')}}",
+                method: 'POST',
+                data: {categoryId: categoryId, productId: productId},
+                success: function (response) {
+                    if (response.status === 'success') {
+                        $(this).closest('li.list-group-item').remove();
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error("Ошибка удаления");
+                    }
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    toastr.error("Ошибка при выполнении запроса");
+                }
+            });
+        });
+
+        $(document).on('click', '.deleteImageButton', function (e) {
+            e.preventDefault();
+
+            let imageId = $(this).data('image-id');
+            let productId = $(this).data('product-id');
+            let imageContainerId = '#imageContainer-' + imageId;
+            $.ajax({
+                url: "{{ route('admin.products.imageDelete') }}",
+                method: 'POST',
+                data: {imageId: imageId, productId: productId},
+                success: function (response) {
+                    if (response.status === 'success') {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error("Ошибка удаления");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = xhr.responseJSON.message;
+                    let errors = xhr.responseJSON.errors;
+                    let errorContainer = $('.errorMessageContainer');
+                    errorContainer.empty();
+
+                    if (errorMessage) {
+                        let alert = $('<div>').addClass('alert alert-danger').text(errorMessage);
+                        errorContainer.append(alert);
+                    }
+
+                    if (errors) {
+                        $.each(errors, function (key, value) {
+                            let alert = $('<div>').addClass('alert alert-danger').text(value);
+                            errorContainer.append(alert);
+                        });
+                    }
+                }
+            });
         });
 
 
 
-        $(document).on('click', '#updateProductButton', function () {
-            console.log(123);
-        });
     });
 </script>

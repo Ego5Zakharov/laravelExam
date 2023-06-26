@@ -14,6 +14,7 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
+            'productId' => 'required|integer|exists:products,id',
             'title' => 'sometimes|string|min:5|max:60',
             'description' => 'sometimes|string|min:5|max:400',
             'price' => 'sometimes|numeric|min:50|max:10000000',

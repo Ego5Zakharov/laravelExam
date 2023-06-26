@@ -5,6 +5,7 @@ namespace App\Actions\Products;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Support\Values\Number;
 
 class UpdateProductAction
 {
@@ -20,7 +21,7 @@ class UpdateProductAction
         return $product->update([
             'title' => $data->title,
             'description' => $data->description,
-            'price' => $data->price,
+            'price' => $data->price->value,
             'quantity' => $data->quantity,
             'published' => $data->published
         ]);

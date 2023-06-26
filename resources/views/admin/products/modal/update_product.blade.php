@@ -1,14 +1,12 @@
 <!-- Модальное окно -->
-<div class="modal fade" id="updateProductFormModal" tabindex="-1" aria-labelledby="updateModalLabel"
-     aria-hidden="true">
-    <x-form class="updateProductForm" enctype="multipart/form-data">
+<div class="modal fade" id="updateProductFormModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <x-form class="updateProductForm">
         <div class="modal-dialog">
-            <input type="text" id="up_id" hidden>
+            <input type="text" id="up_productId" hidden>
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Обновление данных товара</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Закрыть"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
 
                 <div class="errorMessageContainer"></div>
@@ -33,35 +31,41 @@
                         <x-input id="up_quantity" name="quantity"></x-input>
                     </x-form-item>
 
-
                     <x-form-item>
                         <x-label required>Категории
-                            <select id="up_categories" name="categories[]" class="form-select" multiple>
+                            <x-select id="up_categories" name="categories[]" class="form-select" multiple>
                                 @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}
+                                    data-categoryId ={{$category->id}}
+                                    ">{{$category->name}}</option>
                                 @endforeach
-                            </select>
+                            </x-select>
                         </x-label>
                     </x-form-item>
 
-                    <div class="">
-                        <div class="isCategory col-12"></div>
-                        <ul class="categoryContainer list-group">
+                    <div class="categoryContainer">
+                        <ul class="list-group">
+                            @foreach($categories as $category)
+                                <li class="list-group-item">
+                                    {{$category->name}}
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
 
                     <x-form-item>
                         <x-label required>Картинки</x-label>
-                        <x-input id="up_files" type="file" name="images[]" multiple></x-input>
+                        <x-input id="up_images" type="file" name="images" multiple></x-input>
                     </x-form-item>
 
-                    <div class="">
-                        <div class="isImage col-12"></div>
-                        <div class="imageContainer"></div>
+                    <div class="imageContainer">
+                        <ul class="list-group">
+                        </ul>
                     </div>
+
                     <x-form-item>
                         <x-label required>Опубликовано</x-label>
-                        <x-input id="published" class="form-check-input" type="checkbox" name="published"
+                        <x-input id="up_published" class="form-check-input" type="checkbox" name="published"
                                  value="1"></x-input>
                     </x-form-item>
                 </div>
@@ -70,7 +74,6 @@
                     <x-button id="updateProductButton" type="button" data-bs-dismiss="modal">Обновить Товар</x-button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                 </div>
-
             </div>
         </div>
     </x-form>

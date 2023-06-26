@@ -4,9 +4,9 @@
     <x-container class="col-md-6">
         <x-breadcrumb back="admin.products.index" current="ProductUpdate"></x-breadcrumb>
 
-        <x-form action="{{route('admin.products.update',$product)}}" method="POST" enctype="multipart/form-data">
+        <x-form action="{{route('admin.products.updatePOST',$product)}}" method="POST" enctype="multipart/form-data">
             @csrf
-
+            <input type="number" id="productId" name="productId" value="{{$product->id}}" hidden>
             <x-form-item>
                 <x-label required>Title</x-label>
                 <x-input value="{{$product->title}}" name="title"></x-input>

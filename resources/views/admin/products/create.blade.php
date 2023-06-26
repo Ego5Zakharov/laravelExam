@@ -6,7 +6,7 @@
 
         <x-breadcrumb back="admin.products.index" current="ProductCreate"></x-breadcrumb>
 
-        <x-form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data" method="POST">
+        <x-form action="{{route('admin.products.storePost')}}" method="POST" enctype="multipart/form-data" method="POST">
             @csrf
 
             <x-form-item>

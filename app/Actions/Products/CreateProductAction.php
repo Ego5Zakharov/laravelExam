@@ -23,6 +23,7 @@ class CreateProductAction
             $image->product_id = $product->id;
             $image->save();
         }
+
         return $product;
 
     }
