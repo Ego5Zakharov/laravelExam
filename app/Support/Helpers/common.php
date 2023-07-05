@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Product;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;

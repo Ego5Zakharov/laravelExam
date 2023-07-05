@@ -19,7 +19,7 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
         if (Auth::attempt($credentials)) {
-            flash('Вы успешно аутентифицировались!', 'success');
+                flash('Вы успешно аутентифицировались!', 'success');
 
             Cart::syncCartWithDatabaseAndClearSession($request);
 

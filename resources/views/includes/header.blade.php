@@ -19,7 +19,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('home') }}" class="nav-link {{ active_link('') }}"
+                        <a href="{{ route('about') }}" class="nav-link {{ active_link('') }}"
                            aria-current="page">
                             {{ __('О нас') }}
                         </a>
