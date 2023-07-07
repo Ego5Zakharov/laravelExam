@@ -11,6 +11,8 @@
     @apply dark:text-blue-200 inline-block py-1 px-3 border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700;
 }
 
-.tw-container{
+.tw-container {
     @apply container mx-auto;
 }
+
+
