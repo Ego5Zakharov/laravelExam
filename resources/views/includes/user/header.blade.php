@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container">
@@ -13,14 +12,14 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0 d-flex justify-content-around">
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link {{ active_link('home') }}"
+                    <a href="{{ route('about') }}" class="text-gray-600 hover:text-gray-800 text-xl md:ml-5  border-b-2 border-transparent hover:border-black nav-link {{ active_link('about') }}"
                        aria-current="page">
-                        {{ __('Главная') }}
+                        {{ __('О нас') }}
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('search.index') }}" class="nav-link {{ active_link('search.index') }}"
+                    <a href="{{ route('search.index') }}" class="text-gray-600 hover:text-gray-800 text-xl md:ml-5  border-b-2 border-transparent hover:border-black nav-link nav-link {{ active_link('search.index') }}"
                        aria-current="page">
                         {{ __('Поиск Товаров') }}
                     </a>

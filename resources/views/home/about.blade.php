@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="tw-container ">
+    <div class="tw-container mt-4">
         <div class="flex">
             <nav class="flex w-full">
                 <ul class="flex items-center ">
@@ -16,14 +16,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
                     </svg>
 
-                    <li><a href="#" class="text-gray-700 font-bold opacity-30">О компании</a></li>
+                    <li ><a href="#" class="text-gray-700 font-bold opacity-30">О компании</a></li>
                 </ul>
             </nav>
         </div>
 
 
-        <div class="flex mt-7 mb-10 w-50">
-            <p class="text-gray-700 text-xl">
+        <div class="flex mt-8 mb-6 w-50">
+            <p class="text-gray-700 text-xl ml-7">
                 О компании
             </p>
         </div>
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <div class="tw-container border ">
+    <div class="tw-container">
         <div class="flex flex-col items-center mt-16">
             <div class="text-gray-500">Наш девиз</div>
             <div class="text-black font-bold text-4xl">Качество во всем</div>
@@ -140,35 +140,34 @@
         <div class="flex mt-32 mx-3">
             <p class="font-semibold text-xl">Реквизиты компании</p>
         </div>
-
-        <div class="mt-7 mx-3">
-            <div class="w-full lg:w-10/12 border rounded-2xl bg-gray-50 px-10 py-10 shadow">
-                <p class="font-semibold text-xl">
+        <div class="mt-5 mx-3">
+            <div class="w-full lg:w-10/12 border rounded-2xl bg-gray-50 py-10 shadow">
+                <p class="font-semibold text-xl ml-8">
                     ТОО “Мечта Маркет”
                 </p>
                 <div class="w-full md:flex ">
                     <div class="w-full md:w-1/2">
-                        <p class="text-sm mt-2 text-gray-500">
+                        <p class="text-sm mt-2 text-gray-500 ml-8">
                             Юридический и фактический адрес:
                         </p>
-                        <p>Республика Казахстан, 010000, город Астана, район Алматы, ул. Амман, дом 14</p>
+                        <p class="ml-8">Республика Казахстан, 010000, город Астана, район Алматы, ул. Амман, дом 14</p>
 
-                        <div class="w-full md:flex flex-row mt-5 justify-between md:space-x-16 whitespace-nowrap">
+                        <div class="w-full md:flex flex-row mt-5 justify-between  whitespace-nowrap ml-7 space-y-3">
                             <div class="w-full md:w-1/3">
-                                <ul class="mt-5">
+                                <ul class="mr-72">
                                     <li class="text-gray-500">БИН</li>
                                     <li>121040002914</li>
                                 </ul>
                             </div>
                             <div class="w-full md:w-1/3">
-                                <ul class="mt-5">
+                                <ul>
                                     <li class="text-gray-500">Код ОКПО</li>
                                     <li>51761947</li>
                                 </ul>
                             </div>
 
                             <div class="w-full md:w-1/3">
-                                <ul class="mt-5">
+                                <ul>
                                     <li class="text-gray-500">Код ОКЭД</li>
                                     <li>47540</li>
                                 </ul>
@@ -176,20 +175,20 @@
                         </div>
                     </div>
 
-                    <div class="w-full md:w-1/2 md:ml-20 ">
-                        <p class="text-sm mt-2 text-gray-500">
+                    <div class="w-full md:w-1/2 md:ml-15 ">
+                        <p class="text-sm mt-2 text-gray-500 ml-7">
                             Банковские реквизиты:
                         </p>
-                        <p>AО "Народный Банк Казахстана"</p>
+                        <p class="ml-8">AО "Народный Банк Казахстана"</p>
 
-                        <div class="w-full md:flex mt-10 whitespace-nowrap md:space-x-10">
-                            <div class="w-full md:w-1/2  mt-5">
-                                <ul>
-                                    <li class="text-gray-500">Расчётный счёт</li>
+                        <div class="w-full md:flex mt-10 whitespace-nowrap md:space-x-10 ml-7 space-y-3">
+                            <div class="w-full md:w-1/2">
+                                <ul class="mt-3">
+                                    <li class="text-gray-500 ">Расчётный счёт</li>
                                     <li>KZ156010111000171755</li>
                                 </ul>
                             </div>
-                            <div class="w-full md:w-1/2 mt-5">
+                            <div class="w-full md:w-1/2 ">
                                 <ul>
                                     <li class="text-gray-500">БИК</li>
                                     <li>HSBKKZKX</li>
@@ -199,9 +198,9 @@
 
                     </div>
                 </div>
-
             </div>
         </div>
+
     </div>
 @endsection
 
