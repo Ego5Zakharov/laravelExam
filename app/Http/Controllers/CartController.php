@@ -56,9 +56,11 @@ class CartController extends Controller
 
         if (isset($cart[$id])) {
             if ($action === 'increase_quantity') {
-                $cart[$id]['quantity'] += $quantityRequest;
+                $cart[$id]['quantity']++;
             } else if ($action === 'decrease_quantity') {
-                $cart[$id]['quantity'] -= $quantityRequest;
+                $cart[$id]['quantity']--;
+            } else if ($action === 'set_quantity') {
+                $cart[$id]['quantity'] = $quantityRequest;
             }
             if ($cart[$id]['quantity'] <= 0) {
                 unset($cart[$id]);
@@ -234,7 +236,7 @@ class CartController extends Controller
         $cartProduct = $cart->products()->find($product->id);
 
         if ($action === 'decrease_quantity') {
-            $newQuantity = $cartProduct->pivot->quantity - $changeQuantity;
+            $newQuantity = $cartProduct->pivot->quantity - 1;
             if ($newQuantity <= 0) {
                 $cart->products()->detach($cartProduct);
                 flash('Предмет успешно удален из корзины!', 'primary');
@@ -245,14 +247,25 @@ class CartController extends Controller
 
         } elseif ($action === 'increase_quantity') {
             if ($changeQuantity < 99) {
-                $newQuantity = $cartProduct->pivot->quantity + $changeQuantity;
+                $newQuantity = $cartProduct->pivot->quantity + 1;
+
                 $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
                 flash('Обновлено!', 'primary');
+            }
+        } elseif ($action === 'set_quantity') {
+            $newQuantity = intval($changeQuantity);
+
+            if ($newQuantity > 0 && $newQuantity < 100) {
+                $cart->products()->updateExistingPivot($product->id, ['quantity' => $newQuantity]);
+                flash('Обновлено!', 'primary');
+            } else {
+                flash('Недопустимое значение!', 'danger');
             }
         }
 
         return redirect()->route('cart.index');
     }
+
 
     public function outOfStock(Product $product)
     {

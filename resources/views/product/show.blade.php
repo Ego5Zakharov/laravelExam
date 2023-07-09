@@ -8,7 +8,7 @@
                 <div class="card-0">
                     <div class="cart-title">
                         <h3 class="display-6 pb-1 d-inline">
-                            {{$product->title}}
+                           {{$product->title}}
                         </h3>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="tw-container mt-4">
+    <div class="tw-container mt-4   ">
         <div class="flex">
             <nav class="flex w-full">
                 <ul class="flex items-center ">

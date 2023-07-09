@@ -29,7 +29,7 @@
                                     <x-no-image>No Image</x-no-image>
                                 @endif
                             </div>
-                            <div class="card-title text-truncate">{{$product->title}}</div>
+                            <div class="card-title text-truncate"> <a href="{{route('product.show',$product->id)}}">{{$product->title}}</a></div>
                         </div>
                         <div class="cart-body">
                             <div class="card-text text-truncate">{{$product->description}}</div>
