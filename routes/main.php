@@ -31,12 +31,13 @@ Route::get('search/search-product', [SearchController::class, 'search'])->name('
 Route::get('search/sortByAsc', [SearchController::class, 'sortByAsc'])->name('search.sortByAsc');
 Route::get('search/sortByDesc', [SearchController::class, 'sortByDesc'])->name('search.sortByDesc');
 
-//Route::get('/get', function () {
+Route::get('/get', function () {
 //    $posts = Product::query()->whereHas('feedbacks', function ($query) {
 //        $query->where('rating', '>=',5);
 //    })->get();
-////    dd($posts);
-//});
+//    dd($posts);
+    return view('grid.index');
+});
 
 // работа с продуктом
 Route::get('product/{productId}/show', [ProductController::class, 'show'])->name('product.show');

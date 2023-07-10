@@ -1,64 +1,61 @@
 @extends('layouts.base')
 
 @section('content')
-    <x-container>
-        <x-form action="{{ route('delivery.store') }}" method="POST"
-                class="d-flex justify-content-center align-items-center">
-            <div class="col-6">
-                <div class="row bg-light border">
-                    @csrf
-                    <div class="col-6">
-                        <x-form-item class="mb-3">
-                            <x-label for="first_name" class="form-label">Имя</x-label>
-                            <x-input name="first_name" class="form-control" placeholder="Иван"></x-input>
-                        </x-form-item>
-                    </div>
-
-                    <div class="col-6">
-                        <x-form-item class="mb-3">
-                            <x-label for="last_name" class="form-label">Фамилия</x-label>
-                            <x-input name="last_name" class="form-control" placeholder="Иванов"></x-input>
-                        </x-form-item>
-                    </div>
-
-                    <div class="col-4">
-                        <x-form-item class="mb-3">
-                            <x-label for="phone" class="form-label">Телефон</x-label>
-                            <x-input name="phone" class="form-control" placeholder="+7 (865) 952-9449"></x-input>
-                        </x-form-item>
-                    </div>
-
-                    <div class="col-8">
-                        <x-form-item class="mb-3">
-                            <x-label for="address" class="form-label">Адрес доставки</x-label>
-                            <x-input name="address" class="form-control"></x-input>
-                        </x-form-item>
-                    </div>
-
-                    <div class="col-7">
-                        <x-form-item class="mb-3">
-                            <x-label for="city" class="form-label">Город</x-label>
-                            <x-input name="city" class="form-control"></x-input>
-                        </x-form-item>
-                    </div>
-
-                    <div class="col-5">
-                        <x-form-item class="mb-3">
-                            <x-label for="country" class="form-label">Страна</x-label>
-                            <x-input name="country" class="form-control"></x-input>
-                        </x-form-item>
-                    </div>
-
-                    <div class="col-12">
-                        <x-form-item class="mb-3">
-                            <x-label for="notes" class="form-label">Примечания</x-label>
-                            <x-textarea name="notes" class="form-control" rows="2"></x-textarea>
-                        </x-form-item>
-                    </div>
+    <div class="tw-container mt-24 flex justify-center mb-24 border">
+        <form action="{{route('delivery.store')}}" class="flex-col justify-center h-auto min-w-[80px] px-10"
+              method="POST">
+            <p class="text-3xl font-semibold w-full text-center">Delivery options</p>
+            <div class="w-full md:flex mt-3">
+                <div class="w-full md:w-1/2 md:mr-2 mb-3">
+                    <label for="first_name" class="text-xl">First Name:</label>
+                    <input id="first_name" type="text" name="first_name" placeholder="First Name"
+                           class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500">
                 </div>
 
-                <x-button type="submit" class=" text-start border mt-1">Отправить</x-button>
+                <div class="w-full md:w-1/2 md:ml-2 mb-3">
+                    <label for="last_name" class="text-xl">Last Name:</label>
+                    <input id="last_name" type="text" name="last_name" placeholder="Last Name"
+                           class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500">
+                </div>
             </div>
-        </x-form>
-    </x-container>
+
+            <div class="w-full md:flex mt-3">
+                <div class="w-full md:w-1/2 md:mr-2 mb-3">
+                    <label for="phone" class="text-xl">Phone:</label>
+                    <input id="phone" type="text" name="phone" placeholder="Phone"
+                           class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500">
+                </div>
+
+                <div class="w-full md:w-1/2 md:ml-2 mb-3">
+                    <label for="address" class="text-xl">Address:</label>
+                    <input id="address" type="text" name="address" placeholder="Address"
+                           class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500">
+                </div>
+            </div>
+
+            <div class="w-full md:flex mt-3">
+                <div class="w-full md:w-1/2 md:mr-2 mb-3">
+                    <label for="city" class="text-xl">City:</label>
+                    <input id="city" type="text" name="city" placeholder="City"
+                           class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500">
+                </div>
+
+                <div class="w-full md:w-1/2 md:ml-2 mb-3">
+                    <label for="country" class="text-xl">Country:</label>
+                    <input id="country" type="text" name="country" placeholder="Country"
+                           class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500">
+                </div>
+            </div>
+            <div class="w-full md:ml-2 mb-3">
+                <label for="notes" class="text-xl">Notes:</label>
+                <textarea id="notes" name="notes" placeholder="Notes"
+                          class="w-full text-center py-1 text-xl focus:outline-none border-b-2 border-gray-500 focus:border-red-500 transition-colors duration-500"></textarea>
+            </div>
+
+            <button
+                class="border py-3 px-4 text-white bg-gradient-to-b from-pink-500 to-pink-700 hover:bg-gradient-to-br hover:from-pink-400 hover:to-pink-600"
+                type="submit">Submit
+            </button>
+        </form>
+    </div>
 @endsection
