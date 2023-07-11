@@ -319,7 +319,7 @@
             {{--   Показывает после md --}}
             <div class="md:hidden flex overflow-x-auto mt-5 mb-2">
                 <div class="flex space-x-5">
-                    <div class="h-92 " style="width: 300px">
+                    <div class="h-92" style="width: 300px">
                         <img src="https://www.mechta.kz/img/samsung.1834dd76.jpg" alt="SAMSUNG"
                              class="w-full h-full object-cover">
                     </div>

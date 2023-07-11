@@ -15,7 +15,8 @@ class UpdateUserAccountRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|min:5|max:50',
-            'image' => 'sometimes|image|mimes:jpeg,jpg,png,gif|max:2048'
+            'avatar' => 'sometimes|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'phone' => 'sometimes|string|min:10|max:20',
         ];
     }
 }

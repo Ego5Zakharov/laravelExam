@@ -20,6 +20,7 @@ class User extends Authenticatable
         'password',
         'active',
         'balance',
+        'phone',
         'cart_id'
     ];
 

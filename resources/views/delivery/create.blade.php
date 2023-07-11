@@ -1,9 +1,10 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="tw-container mt-24 flex justify-center mb-24 border">
-        <form action="{{route('delivery.store')}}" class="flex-col justify-center h-auto min-w-[80px] px-10"
+    <div class="tw-container mt-24 flex justify-center mb-24">
+        <form action="{{route('delivery.store')}}" class="flex-col justify-center h-auto px-10"
               method="POST">
+            @csrf
             <p class="text-3xl font-semibold w-full text-center">Delivery options</p>
             <div class="w-full md:flex mt-3">
                 <div class="w-full md:w-1/2 md:mr-2 mb-3">

@@ -1,31 +1,45 @@
 @extends('layouts.base')
 
 @section('content')
-    <x-container class="col-md-6 bg-light border">
-        <x-breadcrumb back="user.account.index" current="Редактирование данных"></x-breadcrumb>
+    <x-container class="tw-container col-md-6 bg-white shadow-lg rounded-lg p-6 mt-6">
+        <x-breadcrumb back="user.account.index" current="Редактирование"></x-breadcrumb>
 
-        <x-form action="{{route('user.account.update')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('user.account.update')}}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="d-flex justify-content-center align-items-center ">
+            <div class="flex justify-center items-center mb-6">
                 @if ($user->avatar)
-                    <img src="{{ Storage::url($user->avatar) }}" class="img-fluid img-thumbnail" alt="User Image"
-                         style="height: 250px; width:250px;">
+                    <img src="{{ Storage::url($user->avatar) }}" class="w-40 h-40 object-cover border rounded-full"
+                         alt="User Image">
+                @else
+                    <div class="w-40 h-40 bg-gray-200 rounded-full flex items-center justify-center">
+                        <span class="text-gray-400 text-2xl">No Image</span>
+                    </div>
+                @endif
             </div>
 
-            @else
-                <x-no-image class="border">No Image</x-no-image>
-            @endif
-            <x-form-item>
-                <x-label required>Name</x-label>
-                <x-input value="{{$user->name}}" name="name"></x-input>
-            </x-form-item>
+            <div class="mb-4">
+                <label for="name" class="block text-lg font-medium text-gray-700">Name</label>
+                <input id="name" value="{{$user->name}}" name="name" type="text"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
+            </div>
 
-            <x-form-item>
-                <x-label>Image</x-label>
-                <x-input type="file" name="avatar"></x-input>
-            </x-form-item>
+            <div class="mb-4">
+                <label for="phone" class="block text-lg font-medium text-gray-700">Phone</label>
+                <input id="phone" value="{{$user->phone}}" name="phone" type="text"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
 
-            <x-button type="submit">Обновить</x-button>
-        </x-form>
+            <div class="mb-6">
+                <label for="avatar" class="block text-lg font-medium text-gray-700">Image</label>
+                <input id="avatar" type="file" name="avatar"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
+
+            <div class="flex justify-end">
+                <x-button type="submit">Обновить</x-button>
+            </div>
+        </form>
     </x-container>
+
+
 @endsection

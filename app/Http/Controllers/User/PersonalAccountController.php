@@ -37,7 +37,7 @@ class PersonalAccountController extends Controller
             $path = $file->store('uploads', 'public');
         }
 
-        $data = (new UpdateUserData(name: $validated['name'], avatar: $path));
+        $data = (new UpdateUserData(name: $validated['name'], avatar: $path, phone: $validated['phone']));
 
         (new UpdateUserAction)->run($data, $user);
 
