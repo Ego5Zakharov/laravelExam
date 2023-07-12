@@ -127,7 +127,7 @@
                             <div class="col-md-12 fw-bold h3 display-7 ">Описание</div>
                             <div class="col-md-12">
                                  <span class="text-wrap text-break">
-                                {{$product->description}}  {{$product->description}}  {{$product->description}}  {{$product->description}}  {{$product->description}}
+                               {{$product->description}}
                                 </span>
                             </div>
 

@@ -5,6 +5,9 @@
         .bg-color-custom {
             background-image: linear-gradient(94.18deg, #fae1f3 .59%, #d9f1ff 98.87%);
         }
+        .bg-color-custom2 {
+            background-color: #fae1f3;
+        }
     </style>
     @if(Auth::check() && Auth::user()->id == $user->id)
         <div class="tw-container mt-5  py-2 px-2">
@@ -23,7 +26,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
                         </svg>
 
-                        <li ><a href="#" class="text-gray-700 font-bold opacity-30">Личный кабинет</a></li>
+                        <li><a href="#" class="text-gray-700 font-bold opacity-30">Личный кабинет</a></li>
                     </ul>
                 </nav>
             </div>
@@ -224,6 +227,19 @@
                 </div>
             </div>
 
+            {{-- Заказы --}}
+            <div class="px-2 mt-2">
+                <div
+                    class="w-full border bg-color-custom2 rounded-xl hover:shadow-lg transition-all py-3 px-3 hover:text-pink-500">
+                    <a href="{{route('user.account.orders.index')}}">
+                        <div class="flex flex-col ">
+                            <div class="w-full">
+                                <p  class="text-2xl font-bold">Заказы</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
 
     @endif

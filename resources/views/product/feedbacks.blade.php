@@ -27,7 +27,7 @@
                         {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $feedback->created_at)->format('d.m.Y') }}
                     </div>
                 </div>
-                <div>
+                <div class="flex mt-1">
                     @for($i = 1; $i <= $feedback->rating ; $i++)
                         <img class="mb-1" width="15" height="15"
                              src="https://img.icons8.com/fluency/48/star.png" alt="star"/>

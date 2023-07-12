@@ -13,7 +13,7 @@
             color: #e61771;
         }
     </style>
-    <div class="tw-container mt-10">
+    <x-container class="tw-container mt-10">
         {{-- Баннеры --}}
         <div class="md:flex  md:space-x-1">
             <a href="#" class="w-full md:w-2/3 transition-all duration-400  border-0">
@@ -408,12 +408,11 @@
                 hover:bg-gradient-to-br hover:from-pink-400 hover:to-pink-600" type="submit">Отправить</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </x-container>
 
     {{--  Бренды  --}}
 
