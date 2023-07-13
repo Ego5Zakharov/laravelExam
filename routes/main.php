@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SmsController;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,7 +37,9 @@ Route::get('/get', function () {
 //        $query->where('rating', '>=',5);
 //    })->get();
 //    dd($posts);
-    return view('grid.index');
+//    return view('grid.index');
+    $user = User::query()->findOrFail(8)->permissions();
+    dd($user);
 });
 
 // работа с продуктом

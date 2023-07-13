@@ -3,9 +3,11 @@
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <x-container>
-        <x-button type="button" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryFormModal">
-            Создать категорию
-        </x-button>
+        @can('create', \App\Models\Category::class)
+            <x-button type="button" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryFormModal">
+                Создать категорию
+            </x-button>
+        @endcan
 
         <x-input name="search" id="search" class="mb-3"></x-input>
         <div class="table-data">

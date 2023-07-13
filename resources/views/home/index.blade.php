@@ -27,13 +27,12 @@
         </div>
 
         {{-- Смартфоны и гаджеты --}}
-        <section class="mt-16">
+        <section class="mt-16 relative pb-16">
+            <p class="text-4xl font-bold ">Смартфоны и гаджеты</p>
             <div class="relative">
-                <section class="mt-16 z-10">
-                    <p class="text-4xl font-bold">Смартфоны и гаджеты</p>
-
-                    <div class="flex mt-5 px-2 space-x-3 overflow-x-auto z-20">
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                <section class="overflow-x-scroll ">
+                    <div class="flex mt-5 px-2 space-x-6  relative z-40 ">
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white "
                              style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/images/product/55054/17000000094_1-286.webp" alt="Product">
@@ -44,7 +43,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">499 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white "
                              style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/37/374d2b4b-f418-11eb-a23f-005056b6dbd7-286.webp"
@@ -56,7 +55,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">89 900 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -69,7 +68,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">111 890 T</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -81,7 +80,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">29 490 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -96,17 +95,18 @@
                     </div>
                 </section>
             </div>
+            <div class="bg-purple-500 border w-full h-40 absolute bottom-0 left-0 mt-10 rounded"></div>
         </section>
 
         {{-- Ноутбуки и компьютеры --}}
-        <section class="mt-16">
+        <section class="mt-16 relative pb-16">
+            <p class="text-4xl font-bold">Ноутбуки и компьютеры</p>
             <div class="relative">
-                <section class="mt-16 z-10">
-                    <p class="text-4xl font-bold">Ноутбуки и компьютеры</p>
-
-                    <div class="flex mt-5 px-2 space-x-3 overflow-x-auto z-20">
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 "
-                             style="width: 280px;">
+                <section class="overflow-x-auto">
+                    <div class="flex mt-5 px-2 space-x-6  relative z-40">
+                        <div
+                            class="w-1/5 border rounded-2 overflow-hidden hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
+                            style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/26/26be8812-eeee-11ed-a25a-005056b6dbd7-286.webp"
                                  alt="Product">
@@ -119,7 +119,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">1 599 900 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/af/aff0d4ec-1a8f-11ec-a23f-005056b6dbd7-286.webp"
@@ -133,7 +133,7 @@
                             </p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -147,7 +147,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">91 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -162,7 +162,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">19 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -178,18 +178,20 @@
                             </p>
                         </div>
                     </div>
+
                 </section>
             </div>
+            <div class="bg-green-200 border w-full h-40 absolute bottom-0 left-0 -mt-5 rounded"></div>
         </section>
 
-        {{-- Игры, консоли и развлечения --}}
-        <section class="mt-16">
-            <div class="relative">
-                <section class="mt-16 z-10">
-                    <p class="text-4xl font-bold">Игры, консоли и развлечения</p>
 
-                    <div class="flex mt-5 px-2 space-x-3 overflow-x-auto z-20">
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+        {{-- Игры, консоли и развлечения --}}
+        <section class="mt-16 relative pb-16">
+            <div class="relative">
+                <p class="text-4xl font-bold">Игры, консоли и развлечения</p>
+                <section class="relative overflow-x-auto">
+                    <div class="flex mt-5 px-2 space-x-6  relative z-40">
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/c6/c6e27097-219b-11ec-a23f-005056b6dbd7-286.webp"
@@ -201,7 +203,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">339 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/0a/0a7c537b-fc80-11ea-a231-005056b6dbd7-286.webp"
@@ -213,7 +215,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">219 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -226,7 +228,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">213 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -240,7 +242,7 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">39 990 ₸</p>
                         </div>
 
-                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0"
+                        <div class="w-1/5 border rounded-2 hover:shadow-xl hover:border-0 flex-shrink-0 bg-white"
                              style="width: 280px;">
 
                             <img class="object-cover h-82 w-82 py-4"
@@ -253,8 +255,10 @@
                             <p class="px-6 mt-3 text-xl font-black whitespace-nowrap">364 990 ₸</p>
                         </div>
                     </div>
+
                 </section>
             </div>
+            <div class="absolute left-0 bottom-0 h-40 w-full border rounded bg-red-500"></div>
         </section>
 
         <section class="mt-20">
@@ -405,7 +409,8 @@
 
                             <div class="w-2/12 lg:w-1/3 flex ">
                                 <button class="border py-3 px-3 text-white bg-gradient-to-b from-pink-500 to-pink-700
-                hover:bg-gradient-to-br hover:from-pink-400 hover:to-pink-600" type="submit">Отправить</button>
+                hover:bg-gradient-to-br hover:from-pink-400 hover:to-pink-600" type="submit">Отправить
+                                </button>
                             </div>
                         </div>
                     </div>

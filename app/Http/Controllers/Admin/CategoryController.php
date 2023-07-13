@@ -29,12 +29,16 @@ class CategoryController extends Controller
 
     public function show($id)
     {
+        $this->authorize('view', Category::class);
+
         $category = Category::query()->findOrFail($id);
         return view('admin.categories.show', compact('category'));
     }
 
     public function store(CategoryRequest $request)
     {
+        $this->authorize('create', Category::class);
+
         $path = null;
 
         $validated = $request->validated();

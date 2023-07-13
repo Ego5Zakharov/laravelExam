@@ -9,20 +9,15 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user)
-    {
-        //
-    }
 
-
-    public function view(User $user, User $model)
+    public function view(User $user)
     {
-        //
+        return $user->id === 8;
     }
 
     public function create(User $user)
     {
-        //
+        return $user->id === 9;
     }
 
 
@@ -30,20 +25,4 @@ class UserPolicy
     {
         //
     }
-
-
-    public function delete(User $user, User $model)
-    {
-        //
-    }
-
-//    public function restore(User $user, User $model)
-//    {
-//        //
-//    }
-//
-//    public function forceDelete(User $user, User $model)
-//    {
-//        //
-//    }
 }
