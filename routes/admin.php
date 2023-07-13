@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,8 @@ Route::prefix('admin')->middleware(['role:admin'])->group(function () {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
 
-
+    Route::get('logs', [LogController::class, 'index'])->name('admin.logs.index');
+    Route::get('logs/{file}', [LogController::class, 'show'])->name('admin.logs.show');
+    Route::delete('logs/{file}', [LogController::class, 'delete'])->name('admin.logs.delete');
 });
 

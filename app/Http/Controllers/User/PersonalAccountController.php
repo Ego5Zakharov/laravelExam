@@ -6,6 +6,7 @@ use App\Actions\Users\Account\UpdateUserAction;
 use App\Actions\Users\Account\UpdateUserData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserAccount\UpdateUserAccountRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,10 +25,8 @@ class PersonalAccountController extends Controller
         return view('user.account.edit', compact('user'));
     }
 
-    public function update(UpdateUserAccountRequest $request)
+    public function update(UpdateUserAccountRequest $request,User $user)
     {
-        $user = Auth::user();
-
         $path = $user->avatar;
 
         $validated = $request->validated();
@@ -39,7 +38,7 @@ class PersonalAccountController extends Controller
 
         $data = (new UpdateUserData(name: $validated['name'], avatar: $path, phone: $validated['phone']));
 
-        (new UpdateUserAction)->run($data, $user);
+        (new UpdateUserAction)->run($data, $user->id);
 
         flash('Обновление данных прошло успешно!', 'success');
         return redirect()->route('user.account.index');

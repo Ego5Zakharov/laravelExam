@@ -4,7 +4,7 @@
     <x-container class="tw-container col-md-6 bg-white shadow-lg rounded-lg p-6 mt-6">
         <x-breadcrumb back="user.account.index" current="Редактирование"></x-breadcrumb>
 
-        <form action="{{route('user.account.update')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('user.account.update',$user)}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="flex justify-center items-center mb-6">
                 @if ($user->avatar)
@@ -40,6 +40,5 @@
             </div>
         </form>
     </x-container>
-
 
 @endsection

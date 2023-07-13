@@ -41,23 +41,27 @@
                                 @endif
                             </x-table.col>
 
+
                             <x-table.col class="text-center mb-2 ">
-                                <x-link
-                                    class="delete_category"
-                                    data-id="{{$category->id}}">
-                                    Удалить
-                                </x-link>
+                                @can('delete',\App\Models\Category::class)
+                                    <x-link
+                                        class="delete_category"
+                                        data-id="{{$category->id}}">
+                                        Удалить
+                                    </x-link>
+                                @endcan
 
-                                <x-link
-                                    class="update_category_form"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#updateCategoryFormModal"
-                                    data-id="{{$category->id}}"
-                                    data-name="{{$category->name}}"
-                                    data-image="{{Storage::url($category->image)}}">
-                                    Изменить
-                                </x-link>
-
+                                @can('update',\App\Models\Category::class)
+                                    <x-link
+                                        class="update_category_form"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#updateCategoryFormModal"
+                                        data-id="{{$category->id}}"
+                                        data-name="{{$category->name}}"
+                                        data-image="{{Storage::url($category->image)}}">
+                                        Изменить
+                                    </x-link>
+                                @endcan
                             </x-table.col>
                         </x-table.row>
                     @endforeach

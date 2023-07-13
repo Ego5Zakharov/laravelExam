@@ -8,7 +8,7 @@ class UpdateUserAction
 {
     public function run(UpdateUserData $data, $userId)
     {
-        $user = User::find($userId)->first();
+        $user = User::find($userId);
 
         if ($user) {
             $user->name = $data->name ?: $user->name;

@@ -11,5 +11,5 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('account/orders/{order}/show', [OrderController::class, 'show'])->name('user.account.orders.show');
 
     Route::get('account/edit', [PersonalAccountController::class, 'edit'])->name('user.account.edit');
-    Route::post('account/update', [PersonalAccountController::class, 'update'])->name('user.account.update');
+    Route::post('account/{user}/update', [PersonalAccountController::class, 'update'])->name('user.account.update');
 });

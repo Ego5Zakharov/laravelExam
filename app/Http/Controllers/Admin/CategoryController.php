@@ -16,6 +16,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', Category::class);
+
         $categories = Category::query()->latest()->paginate(5);
 
         return view('admin.categories.index', compact('categories'));
@@ -63,6 +65,8 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request)
     {
+        $this->authorize('update', Category::class);
+
         $validated = $request->validated();
 
         $category = Category::findOrFail($request->up_id);
@@ -90,6 +94,7 @@ class CategoryController extends Controller
 
     public function delete(Request $request)
     {
+        $this->authorize('delete', Category::class);
         try {
             $category = Category::query()->findOrFail($request->category_id);
             $category->delete();
