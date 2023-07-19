@@ -70,7 +70,9 @@ class OrderController extends Controller
 
                 $order->is_paid = true;
                 $order->save();
-
+                $delivery = $order->delivery()->first();
+                $delivery->delivery_status = 'confirmed';
+                $delivery->save();
                 flash('Заказ успешно оплачен!', 'success');
                 return true;
             } else {

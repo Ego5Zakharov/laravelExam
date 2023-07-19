@@ -11,14 +11,14 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::query()->latest()->paginate(3);
+        $products = Product::query()->latest()->paginate(24);
 
         return view('search.index', compact('products'));
     }
 
     public function pagination(Request $request)
     {
-        $products = Product::query()->latest()->paginate(3);
+        $products = Product::query()->latest()->paginate(24);
 
         return view('search.index_pagination', compact('products'))->render();
     }
@@ -37,7 +37,14 @@ class SearchController extends Controller
 
     public function sortByAsc(Request $request)
     {
-        $products = $this->getSearchResults($request->search_string, $request->sort);
+        $search = $request->search_string;
+        $sort = $request->sort;
+
+        if (!empty($search)) {
+            $products = $this->getSearchResults($search, $sort);
+        } else {
+            $products = Product::query()->orderBy('price', 'asc')->paginate(24);
+        }
 
         if ($products->count() >= 1) {
             return view('search.index_pagination', compact('products'))->render();
@@ -45,10 +52,18 @@ class SearchController extends Controller
 
         return response()->json(['status' => 'nothing_found']);
     }
+
 
     public function sortByDesc(Request $request)
     {
-        $products = $this->getSearchResults($request->search_string, $request->sort);
+        $search = $request->search_string;
+        $sort = $request->sort;
+
+        if (!empty($search)) {
+            $products = $this->getSearchResults($search, $sort);
+        } else {
+            $products = Product::query()->orderBy('price', 'desc')->paginate(24);
+        }
 
         if ($products->count() >= 1) {
             return view('search.index_pagination', compact('products'))->render();
@@ -56,6 +71,7 @@ class SearchController extends Controller
 
         return response()->json(['status' => 'nothing_found']);
     }
+
 
     private function getSearchResults($search, $orderBy = "desc")
     {

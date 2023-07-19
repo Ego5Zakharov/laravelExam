@@ -10,6 +10,7 @@ class CreateDeliveryData
         public readonly string $phone,
         public readonly string $address,
         public readonly string $city,
+        public readonly string $country,
         public readonly string $notes,
     )
     {

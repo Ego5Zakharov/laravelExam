@@ -19,7 +19,7 @@ class SearchProductData
             })
             ->where('published', true)
             ->orderBy('price', $orderBy)
-            ->paginate(6);
+            ->paginate(24);
     }
 
     public function default($search)
@@ -34,6 +34,6 @@ class SearchProductData
                     });
             })
             ->where('published', true)
-            ->paginate(6);
+            ->paginate(24);
     }
 }

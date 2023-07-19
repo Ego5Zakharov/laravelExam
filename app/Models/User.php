@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory,HasPermissions, Notifiable;
+    use HasApiTokens, HasFactory, HasPermissions, Notifiable;
 
     protected $fillable = [
         'name',
@@ -87,4 +87,5 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $roleName);
     }
+
 }

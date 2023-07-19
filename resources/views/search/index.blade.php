@@ -17,7 +17,7 @@
                     </div>
 
                     <button class="border mt-2 px-4 py-2 rounded" id="sort-asc-button">По возрастанию</button>
-                    <button class="border mt-2 px-4 py-2 rounded " id="sort-desc-button" type="button">По убыванию
+                    <button class="border mt-2 px-4 py-2 rounded" id="sort-desc-button" type="button">По убыванию
                     </button>
                 </div>
             </div>

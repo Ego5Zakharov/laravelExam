@@ -1,11 +1,15 @@
 @extends('layouts.base')
 
 @section('content')
+    <x-errors></x-errors>
+
     <div class="tw-container mt-28 flex justify-center">
         <form action="{{route('register.store')}}" method="POST" class="w-96 space-y-6">
             @csrf
             <div class="text-gray-600 text-4xl font-semibold mb-6">Registration</div>
             <div class="relative">
+
+                <input type="hidden" name="cart" value="{{ json_encode(session('cart', [])) }}">
                 <input type="email" name="email" placeholder="Email"
                        class="w-full border-b border-black pl-2 py-2 focus:outline-none text-lg focus:border-red-500"
                        required>

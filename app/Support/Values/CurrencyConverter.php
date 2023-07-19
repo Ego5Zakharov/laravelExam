@@ -17,7 +17,7 @@ class CurrencyConverter
     public function getExchangeRate($baseCurrency, $targetCurrency)
     {
         $endpoint = "https://openexchangerates.org/api/latest.json?app_id={$this->apiKey}&base={$baseCurrency}";
-
+        
         try {
             $response = $this->client->get($endpoint);
             $data = json_decode($response->getBody(), true);

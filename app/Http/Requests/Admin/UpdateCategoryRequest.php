@@ -15,7 +15,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'up_name' => 'sometimes|string|min:5|max:50',
-            'up_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'up_image' => 'sometimes|image|mimes:jpeg,png,webp,jpg,gif|max:2048',
         ];
     }
 }

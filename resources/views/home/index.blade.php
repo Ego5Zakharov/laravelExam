@@ -36,7 +36,7 @@
                              style="width: 280px;">
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/images/product/55054/17000000094_1-286.webp" alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',102)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Телефон сотовый APPLE iPhone 13 128GB Blue
                             </a>
@@ -48,7 +48,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/37/374d2b4b-f418-11eb-a23f-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',99)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Наушники MARSHALL MAJOR IV BT (black)
                             </a>
@@ -61,7 +61,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/fc/fc99ae54-0491-11ec-a23f-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',100)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Смарт часы SAMSUNG Galaxy Watch4 Classic 46mm Black (SM-R890NZKACIS)
                             </a>
@@ -73,7 +73,7 @@
 
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/images/product/38070/30000007220_1-286.webp" alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',101)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Телефон сотовый NOKIA 6310 (Черный)
                             </a>
@@ -86,7 +86,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/0f/0f7611bd-3b12-11ed-a24a-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',98)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Телефон сотовый APPLE iPhone 14 Pro 128GB (Deep Purple)
                             </a>
@@ -110,7 +110,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/26/26be8812-eeee-11ed-a25a-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',103)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Ноутбук ASUS ROG Strix SCAR 17 G733PZ-LL023X/17.3 WQXGA 240Hz/AMD Ryzen 9 7945HX 2.5
                                 Ghz/32/SSD1TB/RTX4080/12/Win11Pro
@@ -124,7 +124,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/af/aff0d4ec-1a8f-11ec-a23f-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',104)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Планшет APPLE 10.2-inch iPad Wi-Fi 64GB - Space Grey (MK2K3RK/A)
                             </a>
@@ -139,7 +139,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/b7/b79fb087-f69e-11ec-a24a-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',105)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 МФУ лазерный HP LaserJet M141W
                             </a>
@@ -153,7 +153,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/84/84cc754e-45c4-11ec-a240-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',106)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Графический планшет WACOM One Small (CTL-472-N), Разрешение 2540 lpi, Чувствительность к
                                 нажатию 2048, Интерфейс USB, Размер 210*146*7,5 мм, Чёрный
@@ -168,7 +168,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/e2/e254754b-8b10-11ec-a244-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',107)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Персональный компьютер ACER Predator PO3-630 (DG.E2CMC.003)/Core i5 11400F 2.6
                                 Ghz/16/2TB+SSD512/RTX3070/8/Dos
@@ -196,7 +196,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/c6/c6e27097-219b-11ec-a23f-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',108)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Игровая консоль PlayStation 5
                             </a>
@@ -208,7 +208,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/0a/0a7c537b-fc80-11ea-a231-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',110)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Игровая приставка Xbox Series S
                             </a>
@@ -221,7 +221,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/0e/0ef4c9bd-0762-11ea-a22b-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',111)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Игровая приставка NINTENDO Switch Neon Red/Blue
                             </a>
@@ -234,7 +234,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/68/6818ced2-48ee-11ec-a240-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',112)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Игровая приставка RETRO GENESIS SEGA HD Ultra + 225 игр ZD-06b (2 беспроводных 2.4 ГГц
                                 джойстика, HDMI кабель)
@@ -248,7 +248,7 @@
                             <img class="object-cover h-82 w-82 py-4"
                                  src="https://www.mechta.kz/export/1cbitrix/import_files/7b/7b09c0bc-6afc-11ed-a24d-005056b6dbd7-286.webp"
                                  alt="Product">
-                            <a href="#"
+                            <a href="{{route('product.show',109)}}"
                                class="px-6 text-gray-500 font-semibold overflow-hidden overflow-ellipsis line-clamp-2">
                                 Игровая консоль PlayStation 5 + God of War Ragnarök
                             </a>

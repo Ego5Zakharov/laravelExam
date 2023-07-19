@@ -31,6 +31,14 @@
                             {{ __('Поиск') }}
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('cart.index') }}" class="nav-link {{ active_link('') }} text-gray-600 hover:text-gray-800 text-xl md:ml-5 border-b-2 border-transparent hover:border-black"
+                           aria-current="page">
+                            {{ __('Корзина') }}
+                        </a>
+                    </li>
+
                 </ul>
 
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0">

@@ -15,6 +15,7 @@ class CreateDeliveryAction
                 'city' => $data->city,
                 'phone' => $data->phone,
                 'address' => $data->address,
+                'country' => $data->country,
                 'notes' => $data->notes ?? null
             ]);
     }

@@ -87,6 +87,7 @@ class DeliveryController extends Controller
             phone: $data['phone'],
             address: $data['address'],
             city: $data['city'],
+            country: $data['country'],
             notes: $data['notes'] ?? null
         );
 
@@ -102,6 +103,7 @@ class DeliveryController extends Controller
 
         return (new CreateOrderDetailsAction)->run($orderDetailsData);
     }
+
     protected function hasOrder()
     {
         $hasOrder = Auth::user()->orders->where('is_paid', false)->first();

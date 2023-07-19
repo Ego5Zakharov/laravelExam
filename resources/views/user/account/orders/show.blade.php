@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="tw-container">
+
         <div class="flex mt-2">
             <nav class="flex w-full">
                 <ul class="flex items-center">
@@ -20,6 +21,13 @@
                     <li><a href="#" class="text-gray-700 font-bold opacity-30">Просмотр заказа</a></li>
                 </ul>
             </nav>
+        </div>
+
+        <div class="mt-4">
+            @if($order->is_paid === 0)
+                <a class="px-2 py-2 text-lg border bg-gradient-to-b from-pink-700 to-pink-500 hover:shadow-xl rounded-lg text-white hover:bg-gradient-to-br hover:from-pink-400 hover:to-pink-500"
+                   href="{{route('order.checkout',['order_id'=>$order->id])}}">Оплатить заказ</a>
+            @endif
         </div>
 
         <div class="mt-4">
