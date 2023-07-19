@@ -1,115 +1,98 @@
 @extends('layouts.base')
-
 @section('content')
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <x-container>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <h2 class="my-5 text-center">Laravel 8 Ajax CRUD</h2>
-                <a href="" class="btn btn-success my-3" data-bs-toggle="modal" data-bs-target="#addModal">Add
-                    Product</a>
+        <x-link class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_product_modal"
+                data-bs-dismiss="modal">
+            Create Product(Modal)
+        </x-link>
 
-                <input type="text" name="search" id="search" class="mb-3 form-control" placeholder="Search">
+        <div class="table-data">
+            <x-table.table class="product-table table-bordered ">
+                <x-table.header>
+                    <x-table.col>#</x-table.col>
+                    <x-table.col>Title</x-table.col>
+                    <x-table.col>Description</x-table.col>
+                    <x-table.col>Price</x-table.col>
+                    <x-table.col>Quantity</x-table.col>
+                    <x-table.col>IsPublished</x-table.col>
+                    <x-table.col>Image</x-table.col>
+                    <x-table.col>Actions</x-table.col>
+                </x-table.header>
 
-                <div class="table-data">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Название</th>
-                            <th scope="col">Цена</th>
-                            <th scope="col">Действие</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($products as $key => $product)
-                            <tr>
-                                <th>{{$product->id}}</th>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->price}}</td>
-                                <td>
-                                    <a href=""
-                                       class="btn btn-success update_product_form"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#updateModal"
-                                       data-id="{{$product->id}}"
-                                       data-name="{{$product->name}}"
-                                       data-price="{{$product->price}}"
-                                    >
-                                        <i class="las la-edit"></i>
-                                    </a>
-                                    <a href=""
-                                       class="btn btn-danger delete_product"
-                                       data-id="{{$product->id}}"
-                                    >
-                                        <i class="las la-times">
-                                        </i></a>
-                                </td>
-                            </tr>
-                        @endforeach
+                <x-table.body>
+                    @foreach($products as $product)
+                        <x-table.row>
+                            <x-table.col>{{$product->id}}</x-table.col>
+                            <x-table.col>
+                                <x-link
+                                    href="{{route('admin.products.show',$product->id)}}"> {{$product->title}}</x-link>
+                            </x-table.col>
+                            <x-table.col>{{$product->description}}</x-table.col>
+                            <x-table.col>{{$product->price}}</x-table.col>
+                            <x-table.col>{{$product->quantity}}</x-table.col>
+                            <x-table.col class="col-2">
+                                Опубликовано: {{$product->published ? 'Да' : 'Нет'}}</x-table.col>
 
-                        </tbody>
-                    </table>
-                    {{$products->links()}}
-                </div>
-            </div>
+                            @if($product->images->count() > 0)
+                                <x-table.col>
+                                    <img class="img-fluid"
+                                         src="{{Storage::url($product->images[0]->imagePath)}}"
+                                         alt="">
+                                </x-table.col>
+                            @else
+                                <x-table.col>
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="height: 200px;">
+                                        <span class="text-muted">No Image</span>
+                                    </div>
+                                </x-table.col>
+                            @endif
+                            <x-table.col class="d-flex flex-column text-center">
+                                <x-link class="update_product_form" data-id="{{$product->id}}"
+                                        data-title="{{$product->title}}"
+                                        data-description="{{$product->description}}"
+                                        data-price="{{$product->price}}"
+                                        data-quantity="{{$product->quantity}}"
+                                        data-published="{{$product->published}}"
+                                        data-categories="{{$product->categories}}"
+                                        data-images="{{$product->images}}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#updateProductFormModal">
+                                    Обновить
+                                </x-link>
+
+
+                                <x-link id="delete_product_button" data-id="{{$product->id}}">Удалить</x-link>
+                            </x-table.col>
+
+                        </x-table.row>
+
+                    @endforeach
+
+                </x-table.body>
+            </x-table.table>
+            <div class="mt-2">{{$products->links()}}</div>
         </div>
-    </div>
-
-    {!! Toastr::message() !!}
-    @include('admin.products.modals.update_product_modal');
-    @include('admin.products.modals.add_product_modal')
-    @include('admin.products.scripts.add_product')
+    </x-container>
 
 @endsection
+
+@include('admin.products.modal.add_product')
+@include('admin.products.modal.update_product')
 
 
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+            integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @include('admin.products.javascript.products_scripts')
 @endsection
-
-
-
--git status - статус всех файлов на то, были ли они добавлены в гит для последующего коммита
-
--git commit - инициализация гита в проекте
-
--git add * - добавление всех файлов в контейнер гита
-
--git commit -m "сообщение" - подготовка файлов контейнера перед отправкой + добавление сообщения
-
--git remote add "название" "путь до репозитория"
-
-пример: git remote add github https://github.com/Ego5Zakharov/laravelExam.git
-после этого нужно сделать push, чтобы все данные появились в репозитории
-
--git push -u "название" "название ветки" - отправление данных в репозиторий
-
--git config credential.username "Ego5Zakharov" -- авторизация
-
-Чтобы создать новую ветвь, нужно зайти именно на гитхаб! // она будет изначально идти от ветви master
-
--git branch - сколько веток на локальной машине
-
--git fetch - вытягивание всех веток из репозитория
-
--git branch -r - сколько веток в репозитории
-
--git checkout -b "(название на локалке)" "определенная ветка(путь)" - добавление ветви на локальную машину
-пример: git checkout -b develop github/develop
-
--git checkout "название ветки" - перемещение между ветвями
-
-
--git clone https://github.com/Ego5Zakharov/laravelExam.git "название папки которая будет создана там, где вы находились в терминале"
-после того как мы склонировали проект, чтобы подключить все зависимости нужно написать
--composer install
--npm install
-а также при помощи env.example создать свой файл .env
-
-
-

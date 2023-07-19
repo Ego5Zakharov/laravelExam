@@ -2,43 +2,90 @@
 
 namespace App\Models;
 
+use App\Traits\HasPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasPermissions, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
+        'avatar',
         'password',
+        'active',
+        'balance',
+        'phone',
+        'cart_id'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    protected $casts = ['balance' => 'integer'];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::created(function ($user) {
+            $cart = new Cart;
+            $cart->user_id = $user->id;
+            $cart->save();
+        });
+        self::created(function ($user) {
+            $role = Role::query()->where('name', 'user')->first();
+            if ($role) {
+                $user->roles()->attach($role);
+            }
+        });
+    }
+
+    public function hasAnyRole($roles)
+    {
+        if (is_array($roles)) {
+            return $this->roles()->pluck('name')->intersect($roles)->count() > 0;
+        }
+        return false;
+    }
+
+    public function isAdmin()
+    {
+        return $this->roles()->where('name', 'admin')->exists();
+    }
+
+    public function hasRole(string $roleName)
+    {
+        return $this->roles()->where('name', $roleName);
+    }
+
 }
